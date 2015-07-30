@@ -8,3 +8,5 @@
     - Miinojen määrä / Vaikeustaso
   - Pelistä poistuminen
   - Parhaiden aikojen katsominen?
+  - Miinojen valinta/lukitseminen
+  
