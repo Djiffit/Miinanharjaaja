@@ -73,7 +73,6 @@ public class Alue {
                 } else {
                     System.out.print("-");
                 }
-
             }
             System.out.println("");
         }
@@ -91,18 +90,13 @@ public class Alue {
     }
 
     public void avaaViereiset(int z, int t) {
-
         ArrayList<Ruutu> lista = this.ruudukko[z];
-        if (t + 1 < x) {
-            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu()) {
-                avaa(z, t + 1);
-            }
-        }
-        if (t - 1 >= 0) {
-            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu()) {
-                avaa(z, t - 1);
-            }
-        }
+        avaaViereisetYlempiAlempi(t, lista, z);
+        avaaViereisetOikeaVasen(z, t);
+    }
+
+    private void avaaViereisetOikeaVasen(int z, int t) {
+        ArrayList<Ruutu> lista;
         if (z + 1 < x) {
             lista = this.ruudukko[z + 1];
             if (!lista.get(t).isMiina() && !lista.get(t).isAvattu()) {
@@ -115,7 +109,19 @@ public class Alue {
                 avaa(z - 1, t);
             }
         }
+    }
 
+    private void avaaViereisetYlempiAlempi(int t, ArrayList<Ruutu> lista, int z) {
+        if (t + 1 < x) {
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu()) {
+                avaa(z, t + 1);
+            }
+        }
+        if (t - 1 >= 0) {
+            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu()) {
+                avaa(z, t - 1);
+            }
+        }
     }
 
     public void lisaaMiina(int i, int j) {
@@ -126,8 +132,14 @@ public class Alue {
         if (j + 1 < x) {
             lista.get(j + 1).setViereisetMiinat(1);
         }
-        if (i - 1 >= 0) {
-            lista = this.ruudukko[i - 1];
+        lisaaMiinaVasemmalle(i, j);
+        lisaaMiinaOikealle(i, j);
+    }
+
+    private void lisaaMiinaOikealle(int i, int j) {
+        ArrayList<Ruutu> lista;
+        if (i + 1 < x) {
+            lista = this.ruudukko[i + 1];
             lista.get(j).setViereisetMiinat(1);
             if (j - 1 >= 0) {
                 lista.get(j - 1).setViereisetMiinat(1);
@@ -136,8 +148,12 @@ public class Alue {
                 lista.get(j + 1).setViereisetMiinat(1);
             }
         }
-        if (i + 1 < x) {
-            lista = this.ruudukko[i + 1];
+    }
+
+    private void lisaaMiinaVasemmalle(int i, int j) {
+        ArrayList<Ruutu> lista;
+        if (i - 1 >= 0) {
+            lista = this.ruudukko[i - 1];
             lista.get(j).setViereisetMiinat(1);
             if (j - 1 >= 0) {
                 lista.get(j - 1).setViereisetMiinat(1);
@@ -161,6 +177,9 @@ public class Alue {
                     avatut++;
                 }
             }
+        }
+        if (avatut == 0 && this.ruudut == 0) {
+            return 0;
         }
         return avatut / this.ruudut;
     }

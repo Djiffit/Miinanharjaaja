@@ -28,25 +28,6 @@ public class AlueTest {
         this.alue = new Alue(2, 1);
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of getX method, of class Alue.
-     */
     @Test
     public void testGetX() {
         System.out.println("getX");
@@ -56,22 +37,6 @@ public class AlueTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of tulostaAlue method, of class Alue.
-     */
-//    @Test
-//    public void testTulostaAluePiirtaaOikean() {
-//        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-//        Alue seutu = new Alue(1,1);
-//        System.setOut(new PrintStream(outContent));
-//        seutu.tulostaAlue();
-//        assertEquals("-" + "\n", outContent.toString());
-//    }
-
-    /**
-     * Test of avaa method, of class Alue.
-     */
-    
     @Test
     public void testAvaaPienin() {
         System.out.println("avaa");
@@ -81,26 +46,37 @@ public class AlueTest {
         boolean result = this.alue.avaa(z, t);
         assertEquals(lista[0].get(0).isMiina(), result);
     }
-    
+
     @Test
     public void avaaViereisetAvaaPienenOsan() {
         Alue instance = new Alue(3, 5);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[0].get(1).setMiina(false);
-        lista[0].get(0).setMiina(false);    
+        lista[0].get(0).setMiina(false);
         instance.avaaViereiset(0, 0);
         instance.setRuudut(2);
         assertEquals(1, instance.getAvatutRuudut(), .1);
     }
-    
-     @Test
+
+    @Test
+    public void avaaViereisetEiAvaaMiinoja() {
+        Alue instance = new Alue(3, 5);
+        ArrayList<Ruutu>[] lista = instance.getRuudukko();
+        lista[0].get(1).setMiina(false);
+        lista[0].get(0).setMiina(true);
+        instance.avaaViereiset(0, 1);
+        instance.setRuudut(0);
+        assertEquals(0, instance.getAvatutRuudut(), .1);
+    }
+
+    @Test
     public void avaaViereisetAvaaKaikki() {
         Alue instance = new Alue(3, 0);
         instance.avaaViereiset(0, 0);
         instance.setRuudut(9);
         assertEquals(1, instance.getAvatutRuudut(), .1);
     }
-    
+
     @Test
     public void testAvaaSuurin() {
         System.out.println("avaa");
@@ -110,10 +86,15 @@ public class AlueTest {
         boolean result = this.alue.avaa(z, t);
         assertEquals(lista[z].get(t).isMiina(), result);
     }
+    
+    @Test
+    public void testAvaaKayttaaKaikkienavaajaa() {
+        System.out.println("avaa");
+        Alue seutu = new Alue(3,0);
+        seutu.avaa(0, 0);
+        assertEquals(1, seutu.getAvatutRuudut(), .1);
+    }
 
-    /**
-     * Test of getAvatutRuudut method, of class Alue.
-     */
     @Test
     public void testGetAvatutRuudutNolla() {
         System.out.println("getAvatutRuudut");
@@ -122,21 +103,21 @@ public class AlueTest {
         double result = instance.getAvatutRuudut();
         assertEquals(expResult, result, 0.0);
     }
-    
+
     @Test
     public void testGetAvatutRuudutYksi() {
         System.out.println("getAvatutRuudut");
         Alue instance = new Alue(3, 0);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[1].get(1).setAvattu(true);
-        double expResult = 1/9;
+        double expResult = 1 / 9;
         double result = instance.getAvatutRuudut();
         assertEquals(expResult, result, result);
     }
-    
-    @Test 
+
+    @Test
     public void testLisaaMiinaKeskella() {
-        Alue seutu = new Alue(3,0);
+        Alue seutu = new Alue(3, 0);
         seutu.lisaaMiina(1, 1);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         assertEquals(1, lista[0].get(1).getViereisetMiinat());
@@ -147,51 +128,51 @@ public class AlueTest {
         assertEquals(1, lista[2].get(1).getViereisetMiinat());
         assertEquals(1, lista[2].get(0).getViereisetMiinat());
         assertEquals(1, lista[2].get(2).getViereisetMiinat());
-        
+
     }
-    
-    @Test 
+
+    @Test
     public void alustaAlueEiTeeMitaanJosNegatiivinen() {
         Alue seutu = new Alue(-1, 0);
         seutu.alustaAlue();
     }
-    
-    @Test 
+
+    @Test
     public void alustaAlueLuoAlueen() {
         Alue seutu = new Alue(1, 5);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         assertEquals(true, lista[0].get(0).isMiina());
     }
-    
-     @Test 
+
+    @Test
     public void testLisaaMiinaVasenKulma() {
-        Alue seutu = new Alue(3,0);
+        Alue seutu = new Alue(3, 0);
         seutu.lisaaMiina(0, 0);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         assertEquals(1, lista[1].get(0).getViereisetMiinat());
         assertEquals(1, lista[1].get(1).getViereisetMiinat());
         assertEquals(1, lista[0].get(1).getViereisetMiinat());
     }
-    
+
     @Test
     public void testLisaaMiinaOikeaKulma() {
-        Alue seutu = new Alue(3,0);
+        Alue seutu = new Alue(3, 0);
         seutu.lisaaMiina(2, 2);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         assertEquals(1, lista[1].get(2).getViereisetMiinat());
         assertEquals(1, lista[1].get(1).getViereisetMiinat());
         assertEquals(1, lista[2].get(1).getViereisetMiinat());
     }
-    
+
     @Test
     public void testGetAvatutRuudutKaikki() {
         System.out.println("getAvatutRuudut");
-        Alue instance = new Alue(2, 0);
-        ArrayList<Ruutu>[] lista = instance.getRuudukko();
-        instance.avaa(0, 0);
-        double expResult = 1;
-        double result = instance.getAvatutRuudut();
-        assertEquals(expResult, result, result);
+        Alue seutu = new Alue(2, 0);
+        ArrayList<Ruutu>[] lista = seutu.getRuudukko();
+        seutu.avaa(0, 0);
+        double odotettuTulos = 1;
+        double tulos = seutu.getAvatutRuudut();
+        assertEquals(odotettuTulos, tulos, tulos);
     }
 
 }
