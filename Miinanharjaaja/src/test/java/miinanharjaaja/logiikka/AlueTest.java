@@ -30,7 +30,6 @@ public class AlueTest {
 
     @Test
     public void testGetX() {
-        System.out.println("getX");
         Alue instance = new Alue(2, 1);
         int expResult = 2;
         int result = instance.getX();
@@ -39,7 +38,6 @@ public class AlueTest {
 
     @Test
     public void testAvaaPienin() {
-        System.out.println("avaa");
         int z = 0;
         int t = 0;
         ArrayList<Ruutu>[] lista = this.alue.getRuudukko();
@@ -79,7 +77,6 @@ public class AlueTest {
 
     @Test
     public void testAvaaSuurin() {
-        System.out.println("avaa");
         int z = 1;
         int t = 1;
         ArrayList<Ruutu>[] lista = this.alue.getRuudukko();
@@ -89,7 +86,6 @@ public class AlueTest {
     
     @Test
     public void testAvaaKayttaaKaikkienavaajaa() {
-        System.out.println("avaa");
         Alue seutu = new Alue(3,0);
         seutu.avaa(0, 0);
         assertEquals(1, seutu.getAvatutRuudut(), .1);
@@ -97,7 +93,6 @@ public class AlueTest {
 
     @Test
     public void testGetAvatutRuudutNolla() {
-        System.out.println("getAvatutRuudut");
         Alue instance = new Alue(2, 1);
         double expResult = 0.0;
         double result = instance.getAvatutRuudut();
@@ -106,7 +101,6 @@ public class AlueTest {
 
     @Test
     public void testGetAvatutRuudutYksi() {
-        System.out.println("getAvatutRuudut");
         Alue instance = new Alue(3, 0);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[1].get(1).setAvattu(true);
@@ -166,7 +160,6 @@ public class AlueTest {
 
     @Test
     public void testGetAvatutRuudutKaikki() {
-        System.out.println("getAvatutRuudut");
         Alue seutu = new Alue(2, 0);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         seutu.avaa(0, 0);
