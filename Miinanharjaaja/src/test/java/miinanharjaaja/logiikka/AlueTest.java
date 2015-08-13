@@ -47,7 +47,7 @@ public class AlueTest {
 
     @Test
     public void avaaViereisetAvaaPienenOsan() {
-        Alue instance = new Alue(3, 5);
+        Alue instance = new Alue(3, 50);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[0].get(1).setMiina(false);
         lista[0].get(0).setMiina(false);
@@ -58,7 +58,7 @@ public class AlueTest {
 
     @Test
     public void avaaViereisetEiAvaaMiinoja() {
-        Alue instance = new Alue(3, 5);
+        Alue instance = new Alue(3, 50);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[0].get(1).setMiina(false);
         lista[0].get(0).setMiina(true);
@@ -133,7 +133,7 @@ public class AlueTest {
 
     @Test
     public void alustaAlueLuoAlueen() {
-        Alue seutu = new Alue(1, 5);
+        Alue seutu = new Alue(1, 50);
         ArrayList<Ruutu>[] lista = seutu.getRuudukko();
         assertEquals(true, lista[0].get(0).isMiina());
     }

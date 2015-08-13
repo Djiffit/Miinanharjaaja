@@ -57,10 +57,10 @@ public class Ruutu {
     }
 
 
-    private boolean laskeMiina() {
+    public boolean laskeMiina() {
         Random luku = new Random();
         double sattuma = luku.nextDouble();
-        if (sattuma <= taso * 0.2) {
+        if (sattuma <= taso * 0.15) {
             return true;
         } else {
             return false;

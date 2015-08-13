@@ -64,21 +64,21 @@ public class Alue {
         }
     }
 
-    public void tulostaAlueHavio() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < x; j++) {
-                ArrayList<Ruutu> lista = this.ruudukko[i];
-                if (lista.get(j).isMiina()) {
-                    System.out.print("+");
-                } else {
-                    System.out.print("-");
-                }
-            }
-            System.out.println("");
-        }
-    }
+//    public void tulostaAlueHavio() {
+//        for (int i = 0; i < x; i++) {
+//            for (int j = 0; j < x; j++) {
+//                ArrayList<Ruutu> lista = this.ruudukko[i];
+//                if (lista.get(j).isMiina()) {
+//                    System.out.print("+");
+//                } else {
+//                    System.out.print("-");
+//                }
+//            }
+//            System.out.println("");
+//        }
+//    }
 
-    boolean avaa(int z, int t) {
+    public boolean avaa(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
         if (lista.get(t).isMiina()) {
             return true;
@@ -86,6 +86,30 @@ public class Alue {
             lista.get(t).setAvattu(true);
             avaaViereiset(z, t);
             return false;
+        }
+    }
+
+    public void avaaRuutu(int z, int t) {
+        ArrayList<Ruutu> lista = this.ruudukko[z];
+        if (!lista.get(t).isLukittu()) {
+            if (lista.get(t).isMiina()) {
+
+            } else {
+                lista.get(t).setAvattu(true);
+                avaaViereiset(z, t);
+
+            }
+        }
+    }
+
+    public void lukitseRuutu(int z, int t) {
+        ArrayList<Ruutu> lista = this.ruudukko[z];
+        if (!lista.get(t).isAvattu()) {
+            if (lista.get(t).isLukittu()) {
+                lista.get(t).setLukittu(false);
+            } else {
+                lista.get(t).setLukittu(true);
+            }
         }
     }
 
