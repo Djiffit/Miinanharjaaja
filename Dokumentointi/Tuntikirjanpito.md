@@ -8,3 +8,6 @@ ________________________________________________
 | 30.7  | 1h  | Projektin luonti, ensimmäinen deadline  |
 | 5.8  | 2h  | Ohjelman suunnittelu, tekstipohjaisen version luonti  |
 | 6.8  | 3h  | Tekstipohjainen versio, testien teko  |
+| 11.8  | 3h  | Grafiikoiden luonti, graafisen version pohja  |
+| 12.8  | 3h  | Graafisen version edistäminen  |
+| 13.8  | 4h  | Graafisen käyttöliittymän parantaminen, hiiriohjaus, kolmas deadline |
