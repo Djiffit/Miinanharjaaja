@@ -11,3 +11,5 @@ ________________________________________________
 | 11.8  | 3h  | Grafiikoiden luonti, graafisen version pohja  |
 | 12.8  | 3h  | Graafisen version edistäminen  |
 | 13.8  | 4h  | Graafisen käyttöliittymän parantaminen, hiiriohjaus, kolmas deadline |
+| 19.8  | 3h  | Peli toimii loppuun saakka, graafisen käyttöliittymän parantaminen  |
+| 20.8  | 3h  | Testien tekoa, kello, neljäs deadline |
