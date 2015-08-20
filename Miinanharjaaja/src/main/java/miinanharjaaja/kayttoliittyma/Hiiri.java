@@ -9,19 +9,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
 import miinanharjaaja.logiikka.Alue;
+import miinanharjaaja.logiikka.Peli;
 
+/**
+ *  Hiiri ottaa vastaan hiirenpainallukset ja tulkitsee niiden sijaintia ja tyyppiä
+ */
 public class Hiiri implements MouseListener {
 
     private Tila tila;
 
-    public void setAlue(Alue alue) {
-        this.alue = alue;
-    }
-    private Alue alue;
-
     public Hiiri(Tila tila) {
         this.tila = tila;
     }
+
+    /**
+     * Tarkistaa hiirenpainalluksen ja laskee mihin ruutuun se osuu, jos ollaan pelitilassa
+     */
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -33,17 +36,22 @@ public class Hiiri implements MouseListener {
                 menuToiminnot(mx, my);
 
             } else {
-                int ruutuja = alue.getX();
+                int ruutuja = tila.getPeli().getAlue().getX();
                 double leveys = Math.ceil((mx - (tila.getX() - 900) / 2) / 900.0 * ruutuja);
                 double korkeus = Math.ceil((my - 63) / 900.0 * ruutuja);
                 if (leveys > 0 && korkeus > 0 && leveys < ruutuja + 1 && korkeus < ruutuja + 1) {
-                    alue.avaaRuutu((int) leveys - 1, (int) korkeus - 1);
+                    tila.getPeli().avaaRuutu((int) leveys - 1, (int) korkeus - 1);
                 }
                 System.out.println(mx + " " + my);
                 System.out.println((int) leveys + " " + (int) korkeus + " " + korkeus + " " + leveys);
             }
         }
     }
+    
+    /**
+     * Tarkistaa hiirenpainalluksen, jos kyseessä on oikea hiirenpainallus
+     */
+
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -51,11 +59,11 @@ public class Hiiri implements MouseListener {
         int my = e.getY();
         if (SwingUtilities.isRightMouseButton(e)) {
             if (tila.getState() == tila.palautaPeli()) {
-                int ruutuja = alue.getX();
+                int ruutuja = tila.getPeli().getAlue().getX();
                 double leveys = Math.ceil((mx - (tila.getX() - 900) / 2) / 900.0 * ruutuja);
                 double korkeus = Math.ceil((my - 63) / 900.0 * ruutuja);
                 if (leveys > 0 && korkeus > 0 && leveys < ruutuja + 1 && korkeus < ruutuja + 1) {
-                    alue.lukitseRuutu((int) leveys - 1, (int) korkeus - 1);
+                    tila.getPeli().lukitseRuutu((int) leveys - 1, (int) korkeus - 1);
                 }
                 System.out.println(mx + " " + my);
                 System.out.println((int) leveys + " " + (int) korkeus + " " + korkeus + " " + leveys);
@@ -63,6 +71,11 @@ public class Hiiri implements MouseListener {
         }
 
     }
+    
+    /**
+     * Valikon hiirenpainalluskoordinaatit ja toiminnot
+     */
+
 
     private void menuToiminnot(int mx, int my) {
         if (mx >= tila.getX() / 2 - 130 && mx < tila.getX() / 2 + 170) {
@@ -73,14 +86,12 @@ public class Hiiri implements MouseListener {
         }
         if (mx >= tila.getX() / 2 - 130 && mx < tila.getX() / 2 + 170) {
             if (my >= 470 && my <= 620) {
-                tila.stateGame();
-                System.out.println("Nappi2");
+                tila.updatePeli();
             }
         }
         if (mx >= tila.getX() / 2 - 130 && mx < tila.getX() / 2 + 170) {
             if (my >= 670 && my <= 820) {
-                tila.stateGame();
-                System.out.println("Nappi3");
+                System.exit(0);
             }
         }
     }

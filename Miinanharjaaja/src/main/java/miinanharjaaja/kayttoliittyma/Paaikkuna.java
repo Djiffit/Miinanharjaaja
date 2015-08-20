@@ -16,8 +16,7 @@ import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
 
 /**
- *
- * @author Konsta
+ * Pääikkuna alustaa käyttöliittymän, ja pitää huolen tasaisesta päivitysnopeudesta
  */
 public class Paaikkuna extends JFrame implements Runnable {
 
@@ -34,6 +33,11 @@ public class Paaikkuna extends JFrame implements Runnable {
 
     private Piirtaja piirtaja = new Piirtaja(state);
     private Hiiri hiiri = new Hiiri(state);
+    
+    /**
+     * Pelin päälooppi, joka alustaa käyttöliittymän ja pelin
+     */
+
 
     @Override
     public void run() {
@@ -44,15 +48,8 @@ public class Paaikkuna extends JFrame implements Runnable {
         double delta = 0;
         long timer = System.currentTimeMillis();
         while (running) {
-            if (peli == null && state.getState() == state.palautaPeli()) {
-                int ruutuja = -1;
-                while (ruutuja < 1 || ruutuja > 100) {
-                    ruutuja = Integer.parseInt(JOptionPane.showInputDialog(this, "Monta ruutua? Max. 99", null));
-                }
-                int taso = Integer.parseInt(JOptionPane.showInputDialog(this, "Vaikeustaso 0-4", null));
-                peli = new Peli(new Alue(ruutuja, taso));
-                piirtaja.setAlue(peli.getAlue());
-                hiiri.setAlue(peli.getAlue());
+            if (state.getPeli() == null && state.getState() == state.palautaPeli()) {
+                state.updatePeli();
             }
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -66,11 +63,30 @@ public class Paaikkuna extends JFrame implements Runnable {
                 timer += 1000;
                 System.out.println(updates + " Updates");
                 updates = 0;
+                if (state.getState() == state.palautaPeli()) {
+                    state.getPeli().etene();
+                }
+            }
+            if (state.getPeli() != null && state.getPeli().havio()) {
+                int luku = JOptionPane.showConfirmDialog(this, "Harjaaja menetetty, jatketaanko?", "Häviö", JOptionPane.YES_NO_OPTION);
+                if (luku == JOptionPane.YES_OPTION) {
+                    state.getPeli().jatka();
+                } else {
+                    state.stateMenu();
+                    state.setPeli(null);
+                }
+            }
+            if (state.getPeli() != null && state.getPeli().voitto()) {
+                piirtaja.voitto(); 
             }
 
         }
 
     }
+    /**
+     * Piirtaa pelin 60 kertaa sekunnissa
+     */
+
 
     public void draw() {
         state.setX(frame.getWidth());
@@ -82,6 +98,7 @@ public class Paaikkuna extends JFrame implements Runnable {
         frame = new JFrame("Miinanharjaaja");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(1200, 1020));
         frame.pack();
         luoKomponentit(frame);
         running = true;

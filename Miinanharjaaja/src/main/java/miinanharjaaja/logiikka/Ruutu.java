@@ -8,6 +8,10 @@ package miinanharjaaja.logiikka;
 import miinanharjaaja.logiikka.*;
 import java.util.Random;
 
+/**
+ * Pelikentän ruudun luokka, joka sisältää ruudun ominaisuudet
+ */
+
 public class Ruutu {
 
     private boolean miina;
@@ -55,6 +59,10 @@ public class Ruutu {
     public int getViereisetMiinat() {
         return viereisetMiinat;
     }
+    
+    /**
+     * Laskee onko ruutu miina vaikeustason pohjalta
+     */
 
 
     public boolean laskeMiina() {

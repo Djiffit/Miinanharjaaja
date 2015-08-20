@@ -3,6 +3,9 @@ package miinanharjaaja.logiikka;
 import miinanharjaaja.logiikka.*;
 import java.util.ArrayList;
 
+/**
+ * Alue on ruutuja säilövä luokka, jonka pohjalta kenttä luodaan
+ */
 public class Alue {
 
     private int x;
@@ -28,6 +31,9 @@ public class Alue {
         return x;
     }
 
+    /**
+     * Alustaa alueen luomalla ruudut
+     */
     public void alustaAlue() {
         if (x >= 1) {
             for (int i = 0; i < x; i++) {
@@ -50,34 +56,10 @@ public class Alue {
 
     }
 
-    public void tulostaAlue() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < x; j++) {
-                ArrayList<Ruutu> lista = this.ruudukko[i];
-                if (lista.get(j).isAvattu()) {
-                    System.out.print(lista.get(j).getViereisetMiinat());
-                } else {
-                    System.out.print("-");
-                }
-            }
-            System.out.println("");
-        }
-    }
-
-//    public void tulostaAlueHavio() {
-//        for (int i = 0; i < x; i++) {
-//            for (int j = 0; j < x; j++) {
-//                ArrayList<Ruutu> lista = this.ruudukko[i];
-//                if (lista.get(j).isMiina()) {
-//                    System.out.print("+");
-//                } else {
-//                    System.out.print("-");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//    }
-
+    /**
+     * Avaa koordinaattien mukaisen ruudun ja palauttaa true, jos kyseessä oli
+     * miina, false jos ei
+     */
     public boolean avaa(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
         if (lista.get(t).isMiina()) {
@@ -89,19 +71,9 @@ public class Alue {
         }
     }
 
-    public void avaaRuutu(int z, int t) {
-        ArrayList<Ruutu> lista = this.ruudukko[z];
-        if (!lista.get(t).isLukittu()) {
-            if (lista.get(t).isMiina()) {
-
-            } else {
-                lista.get(t).setAvattu(true);
-                avaaViereiset(z, t);
-
-            }
-        }
-    }
-
+    /**
+     * Vaihdaa ruudun lukkeutumistilaa
+     */
     public void lukitseRuutu(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
         if (!lista.get(t).isAvattu()) {
@@ -113,6 +85,10 @@ public class Alue {
         }
     }
 
+    /**
+     * Avauksen apumetodi, avaa ruudun viereiset ruudut, jos niissä ei oel
+     * miinaa, käyttää oikeavasen ja ylempialempi metodeja hyväkseen
+     */
     public void avaaViereiset(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
         avaaViereisetYlempiAlempi(t, lista, z);
@@ -148,6 +124,9 @@ public class Alue {
         }
     }
 
+    /**
+     * Miinojen luonnin jälkeen asettaa kaikille miinoille oikean määrän viereisiä miinoja
+     */
     public void lisaaMiina(int i, int j) {
         ArrayList<Ruutu> lista = this.ruudukko[i];
         if (j - 1 >= 0) {
@@ -159,6 +138,10 @@ public class Alue {
         lisaaMiinaVasemmalle(i, j);
         lisaaMiinaOikealle(i, j);
     }
+    
+        /**
+     * Antaa tiedon oikealla olevalle miinan sijainnista
+     */
 
     private void lisaaMiinaOikealle(int i, int j) {
         ArrayList<Ruutu> lista;
@@ -173,6 +156,10 @@ public class Alue {
             }
         }
     }
+    
+       /**
+     * Antaa tiedon vasemmalla olevalle miinan sijainnista
+     */
 
     private void lisaaMiinaVasemmalle(int i, int j) {
         ArrayList<Ruutu> lista;
@@ -191,6 +178,9 @@ public class Alue {
     public void setRuudut(int ruudut) {
         this.ruudut = ruudut;
     }
+       /**
+     *  Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos kaikki ruudut on avattu
+     */
 
     public double getAvatutRuudut() {
         double avatut = 0;
