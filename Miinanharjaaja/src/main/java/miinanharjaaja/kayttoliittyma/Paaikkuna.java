@@ -7,6 +7,7 @@ package miinanharjaaja.kayttoliittyma;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.PopupMenu;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -56,50 +57,62 @@ public class Paaikkuna extends JFrame implements Runnable {
             if (state.getPeli() == null && state.getState() == state.palautaPeli()) {
                 state.updatePeli();
             }
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-            if (delta >= 1) {
-                delta--;
-                updates++;
-                draw();
-            }
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                System.out.println(updates + " Updates");
-                updates = 0;
-                if (state.getState() == state.palautaPeli()) {
-                    state.getPeli().etene();
-                }
-            }
+            paivitysNopeus(delta, lastTime, ns, updates, timer);
             if (state.getPeli() != null && state.getPeli().havio()) {
-                int luku = JOptionPane.showConfirmDialog(this, "Harjaaja menetetty, jatketaanko?", "Häviö", JOptionPane.YES_NO_OPTION);
-                if (luku == JOptionPane.YES_OPTION) {
-                    state.getPeli().jatka();
-                } else {
-                    state.stateMenu();
-                    state.setPeli(null);
-                }
+                pelinJatkaminen();
             }
             if (state.getPeli() != null && state.getPeli().voitto()) {
-                piirtaja.voitto();
-                
-                if (!state.getPeli().isLahetetty()) {
-                    nimi = JOptionPane.showInputDialog("Anna nimesi!");
-                    int piste = state.getPeli().pisteet();
-                    try {
-                        manageri.lisaaPisteet(nimi, piste);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    state.getPeli().setLahetetty(true);
-                }
+                tilanteenaVoitto();
             }
 
         }
 
+    }
+
+    private void paivitysNopeus(double delta, long lastTime, double ns, int updates, long timer) {
+        long now = System.nanoTime();
+        delta += (now - lastTime) / ns;
+        lastTime = now;
+        if (delta >= 1) {
+            delta--;
+            updates++;
+            draw();
+        }
+        if (System.currentTimeMillis() - timer > 1000) {
+            timer += 1000;
+            System.out.println(updates + " Updates");
+            updates = 0;
+            if (state.getState() == state.palautaPeli()) {
+                state.getPeli().etene();
+            }
+        }
+    }
+
+    private void tilanteenaVoitto() throws HeadlessException {
+        String nimi;
+        piirtaja.voitto();
+        if (!state.getPeli().isLahetetty()) {
+            nimi = JOptionPane.showInputDialog("Anna nimesi!");
+            int piste = state.getPeli().pisteet();
+            try {
+                manageri.lisaaPisteet(nimi, piste);
+            } catch (IOException ex) {
+                Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            state.getPeli().setLahetetty(true);
+        }
+    }
+
+    private void pelinJatkaminen() throws HeadlessException {
+        int luku = JOptionPane.showConfirmDialog(this, "Harjaaja menetetty, jatketaanko?", "Häviö", JOptionPane.YES_NO_OPTION);
+        if (luku == JOptionPane.YES_OPTION) {
+            state.getPeli().jatka();
+        } else {
+            state.stateMenu();
+            state.setPeli(null);
+        }
     }
 
     /**

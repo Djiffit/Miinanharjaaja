@@ -86,17 +86,21 @@ class Piirtaja extends JPanel {
             }
         }
         if (voittkoko && this.tila.getState() == tila.palautaPeli()) {
-            Random sattuma = new Random();
-            Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
-            graphics.setFont(font);
-            graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
-            int x = (int) (1000 * sattuma.nextDouble());
-            int y = (int) (1000 * sattuma.nextDouble());
-            graphics.drawString("OLET VOITTAJA!", x, y);
+            oletVoittaja(graphics);
 
         } else {
             voittkoko = false;
         }
+    }
+
+    private void oletVoittaja(Graphics graphics) {
+        Random sattuma = new Random();
+        Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
+        graphics.setFont(font);
+        graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
+        int x = (int) (1000 * sattuma.nextDouble());
+        int y = (int) (1000 * sattuma.nextDouble());
+        graphics.drawString("OLET VOITTAJA!", x, y);
     }
 
     private void renderRuudut(Graphics graphics) {
