@@ -11,10 +11,12 @@ public class Alue {
     private int x;
     private int ruudut;
     private int taso;
+    private int avatutRuudut;
     private ArrayList<Ruutu>[] ruudukko;
 
     public Alue(int x, int taso) {
         this.x = x;
+        this.avatutRuudut = 0;
         this.ruudut = 0;
         this.taso = taso;
         if (x >= 1) {
@@ -64,19 +66,25 @@ public class Alue {
 
     }
 
+    public int getARuudut() {
+        return avatutRuudut;
+    }
+
     /**
      * Avaa koordinaattien mukaisen ruudun ja palauttaa true, jos kyseessä oli
      * miina, false jos ei
      */
     public boolean avaa(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
-        if (lista.get(t).isMiina()) {
+        if (lista.get(t).isMiina() && !lista.get(t).isLukittu()) {
             return true;
-        } else {
+        } else if (!lista.get(t).isLukittu() && !lista.get(t).isAvattu()){
+            this.avatutRuudut++;
             lista.get(t).setAvattu(true);
             avaaViereiset(z, t);
             return false;
         }
+        return false;
     }
 
     /**
@@ -99,41 +107,88 @@ public class Alue {
      */
     public void avaaViereiset(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
-        avaaViereisetYlempiAlempi(t, lista, z);
+        avaaViereisetYlempiAlempi(z, lista, t);
         avaaViereisetOikeaVasen(z, t);
+        avaaViereisetPoikittain(z, t);
+    }
+
+    private void avaaViereisetPoikittain(int z, int t) {
+        ArrayList<Ruutu> lista;
+        ArrayList<Ruutu> tama = this.ruudukko[z];
+        boolean avaa = false;
+        if (tama.get(t).getViereisetMiinat() == 0) {
+            avaa = true;
+        }
+
+        if (z + 1 < x && t + 1 < x) {
+            lista = this.ruudukko[z + 1];
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
+                avaa(z + 1, t + 1);
+            }
+        }
+        if (z - 1 >= 0 && t + 1 < x) {
+            lista = this.ruudukko[z - 1];
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
+                avaa(z - 1, t + 1);
+            }
+        }
+        if (z + 1 < x && t - 1 >= 0) {
+            lista = this.ruudukko[z + 1];
+            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
+                avaa(z + 1, t - 1);
+            }
+        }
+        if (z - 1 >= 0 && t - 1 >= 0) {
+            lista = this.ruudukko[z - 1];
+            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
+                avaa(z - 1, t - 1);
+            }
+        }
     }
 
     private void avaaViereisetOikeaVasen(int z, int t) {
         ArrayList<Ruutu> lista;
+        ArrayList<Ruutu> tama = this.ruudukko[z];
+        boolean avaa = false;
+        if (tama.get(t).getViereisetMiinat() == 0 && !tama.get(t).isMiina()) {
+            avaa = true;
+        }
+
         if (z + 1 < x) {
             lista = this.ruudukko[z + 1];
-            if (!lista.get(t).isMiina() && !lista.get(t).isAvattu()) {
+            if (!lista.get(t).isMiina() && !lista.get(t).isAvattu() && (avaa || lista.get(t).getViereisetMiinat() == 0)) {
                 avaa(z + 1, t);
             }
         }
         if (z - 1 >= 0) {
             lista = this.ruudukko[z - 1];
-            if (!lista.get(t).isMiina() && !lista.get(t).isAvattu()) {
+            if (!lista.get(t).isMiina() && !lista.get(t).isAvattu() && (avaa || lista.get(t).getViereisetMiinat() == 0)) {
                 avaa(z - 1, t);
             }
         }
     }
 
-    private void avaaViereisetYlempiAlempi(int t, ArrayList<Ruutu> lista, int z) {
+    private void avaaViereisetYlempiAlempi(int z, ArrayList<Ruutu> lista, int t) {
+        boolean avaa = false;
+        ArrayList<Ruutu> tama = this.ruudukko[z];
+        if (tama.get(t).getViereisetMiinat() == 0 && !tama.get(t).isMiina()) {
+            avaa = true;
+        }
         if (t + 1 < x) {
-            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu()) {
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa || lista.get(t + 1).getViereisetMiinat() == 0)) {
                 avaa(z, t + 1);
             }
         }
         if (t - 1 >= 0) {
-            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu()) {
+            if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa || lista.get(t - 1).getViereisetMiinat() == 0)) {
                 avaa(z, t - 1);
             }
         }
     }
 
     /**
-     * Miinojen luonnin jälkeen asettaa kaikille miinoille oikean määrän viereisiä miinoja
+     * Miinojen luonnin jälkeen asettaa kaikille miinoille oikean määrän
+     * viereisiä miinoja
      */
     public void lisaaMiina(int i, int j) {
         ArrayList<Ruutu> lista = this.ruudukko[i];
@@ -146,11 +201,10 @@ public class Alue {
         lisaaMiinaVasemmalle(i, j);
         lisaaMiinaOikealle(i, j);
     }
-    
-        /**
+
+    /**
      * Antaa tiedon oikealla olevalle miinan sijainnista
      */
-
     private void lisaaMiinaOikealle(int i, int j) {
         ArrayList<Ruutu> lista;
         if (i + 1 < x) {
@@ -164,11 +218,10 @@ public class Alue {
             }
         }
     }
-    
-       /**
+
+    /**
      * Antaa tiedon vasemmalla olevalle miinan sijainnista
      */
-
     private void lisaaMiinaVasemmalle(int i, int j) {
         ArrayList<Ruutu> lista;
         if (i - 1 >= 0) {
@@ -186,10 +239,11 @@ public class Alue {
     public void setRuudut(int ruudut) {
         this.ruudut = ruudut;
     }
-       /**
-     *  Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos kaikki ruudut on avattu
-     */
 
+    /**
+     * Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos
+     * kaikki ruudut on avattu
+     */
     public double getAvatutRuudut() {
         double avatut = 0;
         for (int i = 0; i < x; i++) {

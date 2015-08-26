@@ -91,7 +91,7 @@ public class Hiiri implements MouseListener {
         }
         if (mx >= tila.getX() / 2 - 130 && mx < tila.getX() / 2 + 170) {
             if (my >= 670 && my <= 820) {
-                System.exit(0);
+                tila.stateScore();
             }
         }
     }

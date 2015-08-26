@@ -9,11 +9,11 @@ import java.io.Serializable;
 
 public class Pisteet implements Serializable, Comparable<Pisteet> {
 
-    private int pisteet;
+    private int piste;
     private String nimi;
 
     public int getPisteet() {
-        return pisteet;
+        return piste;
     }
 
     public String getNimi() {
@@ -21,18 +21,23 @@ public class Pisteet implements Serializable, Comparable<Pisteet> {
     }
 
     public Pisteet(String nimi, int pisteet) {
-        this.pisteet = pisteet;
+        this.piste = pisteet;
         this.nimi = nimi;
     }
 
     @Override
     public int compareTo(Pisteet o) {
-        if(this.pisteet > o.getPisteet()) {
-            return 1;
-        } else if(this.pisteet == o.getPisteet()) {
+        if(this.piste > o.getPisteet()) {
+            return -1;
+        } else if(this.piste == o.getPisteet()) {
             return 0;
         } else {
-            return -1;
+            return 1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return nimi + ": " + piste; 
     }
 }

@@ -39,6 +39,7 @@ public class HuippupisteManageri {
     public void lisaaPisteet(String nimi, int pojot) throws IOException, FileNotFoundException, ClassNotFoundException {
         lataaPisteet();
         pistelista.add(new Pisteet(nimi, pojot));
+        paivitaTiedosto();
     }
 
     public void jarjesta() {
@@ -74,15 +75,22 @@ public class HuippupisteManageri {
             outputStream.close();
         }
     }
-    
+
     public String getHuippuPisteet() throws IOException, FileNotFoundException, ClassNotFoundException {
-        int max = 10;
+        int max = 20;
+        if (pistelista.size() < max) {
+            max = pistelista.size();
+        }
         lataaPisteet();
         Collections.sort(pistelista);
         String palautus = "";
         for (int i = 1; i <= max; i++) {
-            palautus += i + " " + pistelista.get(i - 1).getNimi() + ": " + pistelista.get(i - 1).getPisteet();
+            palautus += i + ". " + pistelista.get(i - 1).getNimi() + ": " + pistelista.get(i - 1).getPisteet() + "\n";
         }
         return palautus;
     }
+
+   
+    
+    
 }

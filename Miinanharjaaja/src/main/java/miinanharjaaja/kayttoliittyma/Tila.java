@@ -14,10 +14,20 @@ public class Tila {
     private int x;
     private int y;
     private Peli peli;
+    private HuippupisteManageri manageri;
+
+    public HuippupisteManageri getManageri() {
+        return manageri;
+    }
+
+    public void setManageri(HuippupisteManageri manageri) {
+        this.manageri = manageri;
+    }
 
     public enum STATE {
         GAME,
-        MENU
+        MENU,
+        HIGHSCORE
     }
 
     public void setX(int x) {
@@ -50,7 +60,7 @@ public class Tila {
 
     public void updatePeli() {
         int ruutuja = -1;
-        while (ruutuja < 1 || ruutuja > 100) {
+        while (ruutuja < 1 || ruutuja > 10000) {
             ruutuja = Integer.parseInt(JOptionPane.showInputDialog("Monta ruutua? Max. 99", null));
         }
         int taso = Integer.parseInt(JOptionPane.showInputDialog("Vaikeustaso 0-4", null));
@@ -68,6 +78,10 @@ public class Tila {
     public void stateMenu() {
         state = STATE.MENU;
     }
+    
+    public void stateScore() {
+        state = STATE.HIGHSCORE;
+    }
 
     public STATE palautaMenu() {
         return STATE.MENU;
@@ -75,6 +89,10 @@ public class Tila {
 
     public STATE palautaPeli() {
         return STATE.GAME;
+    }
+    
+    public STATE palautaPiste() {
+        return STATE.HIGHSCORE;
     }
 
     public void stateGame() {

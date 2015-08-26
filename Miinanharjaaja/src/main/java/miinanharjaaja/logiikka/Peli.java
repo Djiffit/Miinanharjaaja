@@ -90,6 +90,6 @@ public class Peli {
     }
 
     public int pisteet() {
-        return (int) (alue.getX() * alue.getAvatutRuudut() * alue.getTaso() * 10 * Math.pow(0.93, menetykset));
+        return (int) (alue.getX() * alue.getAvatutRuudut() * alue.getTaso() * 10 * Math.pow(0.95, menetykset));
     }
 }

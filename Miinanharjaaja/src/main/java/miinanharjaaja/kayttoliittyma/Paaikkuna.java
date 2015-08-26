@@ -123,6 +123,7 @@ public class Paaikkuna extends JFrame implements Runnable {
         frame.setVisible(true);
         frame.addMouseListener(hiiri);
         frame.addKeyListener(new Nappaimisto(state));
+        state.setManageri(manageri);
     }
 
     private void luoKomponentit(Container container) {

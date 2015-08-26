@@ -6,19 +6,23 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
 import miinanharjaaja.logiikka.Ruutu;
+import miinanharjaaja.pisteet.Pisteet;
 
 /**
- * Piirtäjä huolehtii graafisten elementtien piirtämisestä 
+ * Piirtäjä huolehtii graafisten elementtien piirtämisestä
  */
-
 class Piirtaja extends JPanel {
 
     private BufferedImage playNappi;
@@ -35,9 +39,12 @@ class Piirtaja extends JPanel {
     private BufferedImage imageLukittu;
     private Tila tila;
     private boolean voittkoko;
+    private double y;
+    private boolean pisteetPiirretty = false;
 
     public Piirtaja(Tila tila) {
         this.tila = tila;
+        this.y = tila.getY();
         this.voittkoko = false;
         super.setBackground(Color.black);
         try {
@@ -65,14 +72,24 @@ class Piirtaja extends JPanel {
 
         if (this.tila.getState() == tila.palautaPeli() && this.tila.getPeli() != null) {
             renderRuudut(graphics);
-        } else {
+        } else if (this.tila.getState() == tila.palautaMenu()) {
             valikkoRender(graphics);
+        } else if (this.tila.getState() == tila.palautaPiste()) {
+            try {
+                pisteRender(graphics);
+            } catch (IOException ex) {
+                Logger.getLogger(Piirtaja.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Piirtaja.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Piirtaja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (voittkoko && this.tila.getState() == tila.palautaPeli()) {
             Random sattuma = new Random();
             Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
             graphics.setFont(font);
-            graphics.setColor(Color.getHSBColor((float)(256 *sattuma.nextDouble()), (float)(256 *sattuma.nextDouble()), (float)(256 *sattuma.nextDouble())));
+            graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
             int x = (int) (1000 * sattuma.nextDouble());
             int y = (int) (1000 * sattuma.nextDouble());
             graphics.drawString("OLET VOITTAJA!", x, y);
@@ -99,10 +116,11 @@ class Piirtaja extends JPanel {
         Font font = new Font("arial", Font.PLAIN, 40);
         graphics.setFont(font);
         graphics.setColor(Color.white);
-        graphics.drawString("" + tila.getPeli().getMenetykset(), 60, 60);
+        graphics.drawString("Menetyksiä: " + tila.getPeli().getMenetykset(), 30, 60);
         font.deriveFont(30);
-        graphics.drawString(tila.getPeli().kelloAika(), 60, 120);
-        graphics.drawString("" + tila.getPeli().pisteet(), 60, 180);
+        graphics.drawString(tila.getPeli().kelloAika(), 30, 120);
+        graphics.drawString("Pisteet: " + tila.getPeli().pisteet(), 30, 180);
+        graphics.drawString("Ruutuja jäljellä: " + (tila.getPeli().getAlue().getRuudut() - tila.getPeli().getAlue().getARuudut()), 30, 240);
     }
 
     private Image valitsePiirrettava(Ruutu ruutu) {
@@ -146,6 +164,7 @@ class Piirtaja extends JPanel {
     }
 
     private void valikkoRender(Graphics g) {
+        pisteetPiirretty = false;
         Font font = new Font("arial", Font.PLAIN, 80);
         g.setFont(font);
         g.setColor(Color.white);
@@ -159,4 +178,23 @@ class Piirtaja extends JPanel {
         this.voittkoko = true;
     }
 
+    private void pisteRender(Graphics graphics) throws IOException, FileNotFoundException, ClassNotFoundException, InterruptedException {
+        Font font = new Font("arial", Font.PLAIN, 50);
+
+        graphics.setFont(font);
+        graphics.setColor(Color.white);
+        String pisteilijat = tila.getManageri().getHuippuPisteet();
+        int i = 0;
+        
+        for (String line : pisteilijat.split("\n")) {
+            graphics.drawString(line, tila.getX() / 2 - 200, (int) y + i*50);
+            i++;
+        }
+        if (y + i*50 < 0) {
+            y = tila.getY();
+        }
+
+        y += -1;
+
+    }
 }

@@ -32,7 +32,7 @@ public class Nappaimisto implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE && tila.getState() == tila.palautaPeli()) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE && (tila.getState() == tila.palautaPeli() || tila.getState() == tila.palautaPiste())) {
             tila.stateMenu();
         }
     }
