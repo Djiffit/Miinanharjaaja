@@ -102,6 +102,7 @@ class Piirtaja extends JPanel {
         graphics.drawString("" + tila.getPeli().getMenetykset(), 60, 60);
         font.deriveFont(30);
         graphics.drawString(tila.getPeli().kelloAika(), 60, 120);
+        graphics.drawString("" + tila.getPeli().pisteet(), 60, 180);
     }
 
     private Image valitsePiirrettava(Ruutu ruutu) {

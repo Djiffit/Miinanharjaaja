@@ -15,17 +15,27 @@ public class Peli {
     private boolean voitto;
     private int menetykset;
     private Kello kello;
+    private boolean lahetetty;
 
     public Peli(Alue alue) {
         this.alue = alue;
         this.menetykset = 0;
         this.havio = false;
+        this.lahetetty = false;
         this.voitto = false;
         this.kello = new Kello();
     }
 
     public boolean isHavio() {
         return havio;
+    }
+
+    public boolean isLahetetty() {
+        return lahetetty;
+    }
+
+    public void setLahetetty(boolean lahetetty) {
+        this.lahetetty = lahetetty;
     }
 
     public Alue getAlue() {
@@ -77,5 +87,9 @@ public class Peli {
     
     public String kelloAika() {
         return this.kello.toString();
+    }
+
+    public int pisteet() {
+        return (int) (alue.getX() * alue.getAvatutRuudut() * alue.getTaso() * 10 * Math.pow(0.93, menetykset));
     }
 }

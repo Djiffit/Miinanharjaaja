@@ -3,6 +3,7 @@ package miinanharjaaja.kayttoliittyma;
 import javax.swing.JOptionPane;
 import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
+import miinanharjaaja.pisteet.HuippupisteManageri;
 
 /**
  * Tila viestii käyttöliittymälle, mikä on pelin tilanne, eli piirretäänkö menu ja mitä klikkauksia huomioidaan
@@ -15,7 +16,6 @@ public class Tila {
     private Peli peli;
 
     public enum STATE {
-
         GAME,
         MENU
     }

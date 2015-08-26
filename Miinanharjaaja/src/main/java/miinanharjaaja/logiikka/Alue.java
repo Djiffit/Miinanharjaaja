@@ -27,6 +27,14 @@ public class Alue {
         return ruudukko;
     }
 
+    public int getRuudut() {
+        return ruudut;
+    }
+
+    public int getTaso() {
+        return taso;
+    }
+
     public int getX() {
         return x;
     }

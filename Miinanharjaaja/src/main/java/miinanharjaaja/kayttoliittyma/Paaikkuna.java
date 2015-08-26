@@ -8,15 +8,20 @@ package miinanharjaaja.kayttoliittyma;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.PopupMenu;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
+import miinanharjaaja.pisteet.HuippupisteManageri;
 
 /**
- * Pääikkuna alustaa käyttöliittymän, ja pitää huolen tasaisesta päivitysnopeudesta
+ * Pääikkuna alustaa käyttöliittymän, ja pitää huolen tasaisesta
+ * päivitysnopeudesta
  */
 public class Paaikkuna extends JFrame implements Runnable {
 
@@ -33,14 +38,14 @@ public class Paaikkuna extends JFrame implements Runnable {
 
     private Piirtaja piirtaja = new Piirtaja(state);
     private Hiiri hiiri = new Hiiri(state);
-    
+    private HuippupisteManageri manageri = new HuippupisteManageri();
+
     /**
      * Pelin päälooppi, joka alustaa käyttöliittymän ja pelin
      */
-
-
     @Override
     public void run() {
+        String nimi = "p";
         alustaLiittyma();
         long lastTime = System.nanoTime();
         double ns = 1000000000 / FPS;
@@ -77,16 +82,29 @@ public class Paaikkuna extends JFrame implements Runnable {
                 }
             }
             if (state.getPeli() != null && state.getPeli().voitto()) {
-                piirtaja.voitto(); 
+                piirtaja.voitto();
+                
+                if (!state.getPeli().isLahetetty()) {
+                    nimi = JOptionPane.showInputDialog("Anna nimesi!");
+                    int piste = state.getPeli().pisteet();
+                    try {
+                        manageri.lisaaPisteet(nimi, piste);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    state.getPeli().setLahetetty(true);
+                }
             }
 
         }
 
     }
+
     /**
      * Piirtaa pelin 60 kertaa sekunnissa
      */
-
 
     public void draw() {
         state.setX(frame.getWidth());
