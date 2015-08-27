@@ -29,7 +29,6 @@ public class Paaikkuna extends JFrame implements Runnable {
     private JFrame frame;
     public int height = 1020;
     public int width = 1813;
-    private Peli peli;
     private boolean running = false;
 
     private double FPS = 60;

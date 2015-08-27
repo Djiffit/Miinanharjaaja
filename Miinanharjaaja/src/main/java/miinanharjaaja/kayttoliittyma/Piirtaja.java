@@ -13,12 +13,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import miinanharjaaja.logiikka.Alue;
-import miinanharjaaja.logiikka.Peli;
 import miinanharjaaja.logiikka.Ruutu;
-import miinanharjaaja.pisteet.Pisteet;
+
 
 /**
  * Piirtäjä huolehtii graafisten elementtien piirtämisestä
