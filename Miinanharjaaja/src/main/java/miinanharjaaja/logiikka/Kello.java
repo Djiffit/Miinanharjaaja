@@ -14,6 +14,7 @@ public class Kello {
     private int sekunnit;
     private int minuutit;
     private int tunnit;
+    private boolean paalla;
 
     public int getSekunnit() {
         return sekunnit;
@@ -30,7 +31,6 @@ public class Kello {
     public boolean isPaalla() {
         return paalla;
     }
-    private boolean paalla;
 
     public Kello() {
         this.paalla = true;
@@ -52,14 +52,15 @@ public class Kello {
     }
 
     public void etene() {
-
-        this.sekunnit++;
-        if (this.sekunnit == 60) {
-            this.sekunnit = 0;
-            this.minuutit++;
-            if (this.minuutit == 60) {
-                this.minuutit = 0;
-                this.tunnit++;
+        if (paalla) {
+            this.sekunnit++;
+            if (this.sekunnit == 60) {
+                this.sekunnit = 0;
+                this.minuutit++;
+                if (this.minuutit == 60) {
+                    this.minuutit = 0;
+                    this.tunnit++;
+                }
             }
         }
 

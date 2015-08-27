@@ -1,14 +1,15 @@
 package miinanharjaaja.kayttoliittyma;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
 import miinanharjaaja.pisteet.HuippupisteManageri;
 
 /**
- * Tila viestii käyttöliittymälle, mikä on pelin tilanne, eli piirretäänkö menu ja mitä klikkauksia huomioidaan
+ * Tila viestii käyttöliittymälle, mikä on pelin tilanne, eli piirretäänkö menu
+ * ja mitä klikkauksia huomioidaan
  */
-
 public class Tila {
 
     private int x;
@@ -25,6 +26,7 @@ public class Tila {
     }
 
     public enum STATE {
+
         GAME,
         MENU,
         HIGHSCORE
@@ -55,16 +57,32 @@ public class Tila {
     }
 
     public Peli getPeli() {
-        return peli;
+return peli;
     }
 
     public void updatePeli() {
-        int ruutuja = -1;
-        while (ruutuja < 1 || ruutuja > 10000) {
-            ruutuja = Integer.parseInt(JOptionPane.showInputDialog("Monta ruutua? Max. 99", null));
+        String ruutu = "";
+        
+        String tashoo = "";
+        while (true) {
+            String ruutuja = (JOptionPane.showInputDialog("Monta ruutua? Max. 99", null));
+            
+            if (ruutuja != null && (ruutuja.matches("[0-9]+") && ruutuja.length() > 0)) {
+                ruutu = ruutuja;
+                break;
+            }
         }
-        int taso = Integer.parseInt(JOptionPane.showInputDialog("Vaikeustaso 0-4", null));
-        peli = new Peli(new Alue(ruutuja, taso));
+        while (true) {
+            String taso = (JOptionPane.showInputDialog("Vaikeustaso? Taso * 0,05 miinoja", null));
+            if (taso != null && (taso.matches("[0-9]+") && taso.length() > 0)) {
+                tashoo = taso;
+                break;
+            }
+        }
+        peli = new Peli(new Alue(Integer.parseInt(ruutu), Integer.parseInt(tashoo)));
+        if (peli == null) {
+            updatePeli();
+        }
     }
 
     public int getX() {
@@ -78,7 +96,7 @@ public class Tila {
     public void stateMenu() {
         state = STATE.MENU;
     }
-    
+
     public void stateScore() {
         state = STATE.HIGHSCORE;
     }
@@ -90,7 +108,7 @@ public class Tila {
     public STATE palautaPeli() {
         return STATE.GAME;
     }
-    
+
     public STATE palautaPiste() {
         return STATE.HIGHSCORE;
     }

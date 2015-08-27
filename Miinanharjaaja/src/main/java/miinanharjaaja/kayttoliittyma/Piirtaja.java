@@ -34,6 +34,10 @@ class Piirtaja extends JPanel {
     private BufferedImage image6;
     private BufferedImage image7;
     private BufferedImage image8;
+    private BufferedImage image9;
+    private BufferedImage image10;
+    private BufferedImage image11;
+    private BufferedImage image12;
     private BufferedImage image;
     private BufferedImage imageAuki;
     private BufferedImage imageLukittu;
@@ -59,6 +63,10 @@ class Piirtaja extends JPanel {
             image6 = ImageIO.read(new FileInputStream("Ruutu6.png"));
             image7 = ImageIO.read(new FileInputStream("Ruutu7.png"));
             image8 = ImageIO.read(new FileInputStream("Ruutu8.png"));
+            image9 = ImageIO.read(new FileInputStream("uusiPeli.png"));
+            image10 = ImageIO.read(new FileInputStream("poistuNappi.png"));
+            image11 = ImageIO.read(new FileInputStream("pisteet.png"));
+            image12 = ImageIO.read(new FileInputStream("miinanharjaaja.png"));
             imageAuki = ImageIO.read(new FileInputStream("RuutuAvattu.png"));
             imageLukittu = ImageIO.read(new FileInputStream("RuutuLukittu.png"));
         } catch (Exception e) {
@@ -94,13 +102,15 @@ class Piirtaja extends JPanel {
     }
 
     private void oletVoittaja(Graphics graphics) {
-        Random sattuma = new Random();
-        Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
-        graphics.setFont(font);
-        graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
-        int x = (int) (1000 * sattuma.nextDouble());
-        int y = (int) (1000 * sattuma.nextDouble());
-        graphics.drawString("OLET VOITTAJA!", x, y);
+        if (tila.getPeli().isVoitto()) {
+            Random sattuma = new Random();
+            Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
+            graphics.setFont(font);
+            graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
+            int x = (int) (1000 * sattuma.nextDouble());
+            int y = (int) (1000 * sattuma.nextDouble());
+            graphics.drawString("OLET VOITTAJA!", x, y);
+        }
     }
 
     private void renderRuudut(Graphics graphics) {
@@ -124,7 +134,7 @@ class Piirtaja extends JPanel {
         font.deriveFont(30);
         graphics.drawString(tila.getPeli().kelloAika(), 30, 120);
         graphics.drawString("Pisteet: " + tila.getPeli().pisteet(), 30, 180);
-        graphics.drawString("Ruutuja jäljellä: " + (tila.getPeli().getAlue().getRuudut() - tila.getPeli().getAlue().getARuudut()), 30, 240);
+        graphics.drawString("Ruutuja: " + (tila.getPeli().getAlue().getRuudut() - tila.getPeli().getAlue().getARuudut()), 30, 240);
     }
 
     private Image valitsePiirrettava(Ruutu ruutu) {
@@ -172,10 +182,11 @@ class Piirtaja extends JPanel {
         Font font = new Font("arial", Font.PLAIN, 80);
         g.setFont(font);
         g.setColor(Color.white);
-        g.drawString("Miinanharjaaja", tila.getX() / 2 - 280, 100);
-        g.drawImage(playNappi, tila.getX() / 2 - 150, 250, 300, 150, this);
-        g.drawImage(playNappi, tila.getX() / 2 - 150, 450, 300, 150, this);
-        g.drawImage(playNappi, tila.getX() / 2 - 150, 650, 300, 150, this);
+        g.drawImage(playNappi, tila.getX() / 2 - 350, 250, 300, 150, this);
+        g.drawImage(image9, tila.getX() / 2 + 50, 250, 300, 150, this);
+        g.drawImage(image11, tila.getX() / 2 - 150, 450, 300, 150, this);
+        g.drawImage(image10, tila.getX() / 2 - 150, 650, 300, 150, this);
+        g.drawImage(image12, tila.getX() / 2 - 450, 25, 900, 200, this);
     }
 
     void voitto() {
@@ -189,12 +200,12 @@ class Piirtaja extends JPanel {
         graphics.setColor(Color.white);
         String pisteilijat = tila.getManageri().getHuippuPisteet();
         int i = 0;
-        
+
         for (String line : pisteilijat.split("\n")) {
-            graphics.drawString(line, tila.getX() / 2 - 200, (int) y + i*50);
+            graphics.drawString(line, tila.getX() / 2 - 200, (int) y + i * 50);
             i++;
         }
-        if (y + i*50 < 0) {
+        if (y + i * 50 < 0) {
             y = tila.getY();
         }
 

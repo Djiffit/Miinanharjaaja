@@ -21,7 +21,7 @@ public class Peli {
         this.alue = alue;
         this.menetykset = 0;
         this.havio = false;
-        this.lahetetty = false;
+        this.lahetetty = true;
         this.voitto = false;
         this.kello = new Kello();
     }
@@ -43,7 +43,6 @@ public class Peli {
     }
 
     public boolean havio() {
-        kello.setPaalla(false);
         return this.havio;
     }
 
@@ -51,9 +50,14 @@ public class Peli {
         return kello;
     }
 
+    public boolean isVoitto() {
+        return voitto;
+    }
+
     public boolean voitto() {
         if (alue.getAvatutRuudut() == 1) {
             kello.setPaalla(false);
+            this.voitto = true;
             return true;
         } else {
             return false;
@@ -70,6 +74,7 @@ public class Peli {
 
     public void avaaRuutu(int x, int y) {
         boolean tulos = this.alue.avaa(x, y);
+        setLahetetty(false);
         if (tulos) {
             this.havio = true;
             lukitseRuutu(x, y);
@@ -90,6 +95,6 @@ public class Peli {
     }
 
     public int pisteet() {
-        return (int) (alue.getX() * alue.getAvatutRuudut() * alue.getTaso() * 10 * Math.pow(0.95, menetykset));
+        return (int) (alue.getX() * alue.getAvatutRuudut() * alue.getTaso() * 100 * Math.pow(0.95, menetykset));
     }
 }

@@ -124,7 +124,7 @@ public class Paaikkuna extends JFrame implements Runnable {
         frame = new JFrame("Miinanharjaaja");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(1200, 1020));
+        frame.setMinimumSize(new Dimension(1400, 1020));
         frame.pack();
         luoKomponentit(frame);
         running = true;
