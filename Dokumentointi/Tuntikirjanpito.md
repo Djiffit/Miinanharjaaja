@@ -13,3 +13,5 @@ ________________________________________________
 | 13.8  | 4h  | Graafisen käyttöliittymän parantaminen, hiiriohjaus, kolmas deadline |
 | 19.8  | 3h  | Peli toimii loppuun saakka, graafisen käyttöliittymän parantaminen  |
 | 20.8  | 3h  | Testien tekoa, kello, neljäs deadline |
+| 26.8  | 3h  | Logiikan parantamista, pistetaulukko  |
+| 27.8  | 3h  | Päävalikon viimeistely, 5. deadline |
