@@ -3,10 +3,11 @@
 <b>Käyttäjät:</b> Pelaaja
 
 <b>Pelaajan toiminnot:</b> 
-  - Pelin käynnistäminen
-    - Ruudukon koon valinta?
+  - Pelin käynnistäminen ja uuden pelin aloittaminen
+    - Ruudukon koon valinta
     - Miinojen määrä / Vaikeustaso
   - Pelistä poistuminen
-  - Parhaiden aikojen katsominen?
+  - Parhaiden pisteiden katsominen ja kirjanpito
   - Miinojen valinta/lukitseminen
+  - Päävalikko
   
