@@ -14,6 +14,11 @@ public class Alue {
     private int avatutRuudut;
     private ArrayList<Ruutu>[] ruudukko;
 
+    /**
+     *
+     * @param x monta ruutua per rivi
+     * @param taso vaikeustaso
+     */
     public Alue(int x, int taso) {
         this.x = x;
         this.avatutRuudut = 0;
@@ -73,6 +78,9 @@ public class Alue {
     /**
      * Avaa koordinaattien mukaisen ruudun ja palauttaa true, jos kyseessä oli
      * miina, false jos ei
+     * @param z x koordinaatti
+     * @param t y koordinaatti
+     * @return miinastatus
      */
     public boolean avaa(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
@@ -89,6 +97,8 @@ public class Alue {
 
     /**
      * Vaihdaa ruudun lukkeutumistilaa
+     * @param z x koordinaatti
+     * @param t y koordinaatti
      */
     public void lukitseRuutu(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
@@ -104,6 +114,8 @@ public class Alue {
     /**
      * Avauksen apumetodi, avaa ruudun viereiset ruudut, jos niissä ei oel
      * miinaa, käyttää oikeavasen ja ylempialempi metodeja hyväkseen
+     * @param z x koordinaatti
+     * @param t y koordinaatti
      */
     public void avaaViereiset(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
@@ -120,18 +132,12 @@ public class Alue {
             avaa = true;
         }
 
-        if (z + 1 < x && t + 1 < x) {
-            lista = this.ruudukko[z + 1];
-            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
-                avaa(z + 1, t + 1);
-            }
-        }
-        if (z - 1 >= 0 && t + 1 < x) {
-            lista = this.ruudukko[z - 1];
-            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
-                avaa(z - 1, t + 1);
-            }
-        }
+        avaaPoikittainOikeaPuoli(z, t, avaa);
+        avaaPoikittainVasenPuoli(z, t, avaa);
+    }
+
+    private void avaaPoikittainVasenPuoli(int z, int t, boolean avaa) {
+        ArrayList<Ruutu> lista;
         if (z + 1 < x && t - 1 >= 0) {
             lista = this.ruudukko[z + 1];
             if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
@@ -142,6 +148,22 @@ public class Alue {
             lista = this.ruudukko[z - 1];
             if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
                 avaa(z - 1, t - 1);
+            }
+        }
+    }
+
+    private void avaaPoikittainOikeaPuoli(int z, int t, boolean avaa) {
+        ArrayList<Ruutu> lista;
+        if (z + 1 < x && t + 1 < x) {
+            lista = this.ruudukko[z + 1];
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
+                avaa(z + 1, t + 1);
+            }
+        }
+        if (z - 1 >= 0 && t + 1 < x) {
+            lista = this.ruudukko[z - 1];
+            if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
+                avaa(z - 1, t + 1);
             }
         }
     }
@@ -189,6 +211,8 @@ public class Alue {
     /**
      * Miinojen luonnin jälkeen asettaa kaikille miinoille oikean määrän
      * viereisiä miinoja
+     * @param i x koordinaatti
+     * @param j y koordinaatti
      */
     public void lisaaMiina(int i, int j) {
         ArrayList<Ruutu> lista = this.ruudukko[i];
@@ -243,6 +267,7 @@ public class Alue {
     /**
      * Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos
      * kaikki ruudut on avattu
+     * 
      */
     public double getAvatutRuudut() {
         double avatut = 0;

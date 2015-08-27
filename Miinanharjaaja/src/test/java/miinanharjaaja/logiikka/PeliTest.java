@@ -34,14 +34,14 @@ public class PeliTest {
     /**
      * Test of havio method, of class Peli.
      */
-    @Test
-    public void testHavio() {
-        System.out.println("havio");
-        Peli peli = new Peli(new Alue(3, 1));
-        boolean havio = peli.havio();
-        assertEquals(peli.isHavio(), havio);
-        assertEquals(peli.getKello().isPaalla(), false);
-    }
+//    @Test
+//    public void testHavio() {
+//        System.out.println("havio");
+//        Peli peli = new Peli(new Alue(3, 1));
+//        boolean havio = peli.havio();
+//        assertEquals(peli.isHavio(), havio);
+//        assertEquals(peli.getKello().isPaalla(), false);
+//    }
 
     /**
      * Test of voitto method, of class Peli.

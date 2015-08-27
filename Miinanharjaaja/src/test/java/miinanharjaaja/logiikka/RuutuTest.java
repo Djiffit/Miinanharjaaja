@@ -69,7 +69,7 @@ public class RuutuTest {
     
         @Test
     public void testLaskeMiinaSata() {
-        Alue alueNolla = new Alue(3, 10);
+        Alue alueNolla = new Alue(3, 1000);
         int miinojenMaara = 0;
         ArrayList[] ruudukko = alueNolla.getRuudukko();
         for (int i = 0; i < ruudukko.length; i++) {

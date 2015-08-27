@@ -29,7 +29,10 @@ public class Nappaimisto implements KeyListener {
      * Nappien toiminnot
      */
 
-
+    /**
+     * Nappien toiminnot
+     * @param e näppäimen painaminen
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE && (tila.getState() == tila.palautaPeli() || tila.getState() == tila.palautaPiste())) {

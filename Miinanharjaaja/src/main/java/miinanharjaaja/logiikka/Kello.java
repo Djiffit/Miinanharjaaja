@@ -50,6 +50,10 @@ public class Kello {
     public void setTunnit(int tunnit) {
         this.tunnit = tunnit;
     }
+    
+    /**
+     * Siirtää kelloa sekunnin eteenpäin
+     */
 
     public void etene() {
         if (paalla) {

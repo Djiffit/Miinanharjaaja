@@ -47,13 +47,15 @@ public class AlueTest {
 
     @Test
     public void avaaViereisetAvaaPienenOsan() {
-        Alue instance = new Alue(3, 50);
+        Alue instance = new Alue(3, 500);
         ArrayList<Ruutu>[] lista = instance.getRuudukko();
         lista[0].get(1).setMiina(false);
         lista[0].get(0).setMiina(false);
-        instance.avaaViereiset(0, 0);
-        instance.setRuudut(2);
-        assertEquals(1, instance.getAvatutRuudut(), .1);
+        lista[1].get(0).setMiina(false);
+        lista[0].get(0).setViereisetMiinat(0);
+        lista[0].get(1).setViereisetMiinat(3);
+        instance.avaa(0, 1);
+        assertEquals(1, instance.getARuudut());
     }
 
     @Test

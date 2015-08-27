@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
- * @author Konsta
+ * Hoitaa parhaiden pisteiden listaa ylläpitävän tiedoston kirjoittamisen ja lukemisen ja sen muuttamisen listaksi
+ * 
  */
 public class HuippupisteManageri {
 
@@ -26,25 +26,64 @@ public class HuippupisteManageri {
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
+    /**
+     *
+     */
     public HuippupisteManageri() {
         this.pistelista = new ArrayList<Pisteet>();
     }
+    
+    /**
+     * Lataa pisteet tiedostosta ja järjestää ne ja palauttaa järjestetyn listan
+     * 
+     * 
+     * @return järjestetty pistelista
+     * @throws java.io.IOException 
+     * @throws java.io.FileNotFoundException 
+     * @throws java.lang.ClassNotFoundException 
+     */
 
     public ArrayList<Pisteet> getPisteet() throws IOException, FileNotFoundException, ClassNotFoundException {
         lataaPisteet();
         jarjesta();
         return pistelista;
     }
+    
+    /**
+     * Lataa pisteet tiedostosta ja päivittää sen uudella merkinnällä
+     * 
+     * 
+     * @param nimi pelaajan nimimerkki
+     * @param pojot pelaajan pisteet
+     * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
+     * @throws java.lang.ClassNotFoundException
+     */
 
     public void lisaaPisteet(String nimi, int pojot) throws IOException, FileNotFoundException, ClassNotFoundException {
         lataaPisteet();
         pistelista.add(new Pisteet(nimi, pojot));
         paivitaTiedosto();
     }
+    
+    /**
+     * 
+     * Järjestää listan
+     * 
+     */
 
     public void jarjesta() {
         Collections.sort(pistelista);
     }
+    
+    /**
+     * Lataa tiedostosta arraylist olion
+     * 
+     * 
+     * @throws java.io.FileNotFoundException
+     * @throws java.io.IOException
+     * @throws java.lang.ClassNotFoundException
+     */
 
     public void lataaPisteet() throws FileNotFoundException, IOException, ClassNotFoundException {
         try {
@@ -61,6 +100,14 @@ public class HuippupisteManageri {
             }
         }
     }
+    
+    /**
+     * 
+     * Päivittää olion ArrayListin pistetiedostoon levyllä
+     * 
+     * @throws java.io.FileNotFoundException
+     * @throws java.io.IOException
+     */
 
     public void paivitaTiedosto() throws FileNotFoundException, IOException {
         try {
@@ -75,6 +122,15 @@ public class HuippupisteManageri {
             outputStream.close();
         }
     }
+    
+    /**
+     * 
+     * Palauttaa 20 korkeinta pisteitä saanutta
+     * @return top20 lista
+     * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
+     * @throws java.lang.ClassNotFoundException
+     */
 
     public String getHuippuPisteet() throws IOException, FileNotFoundException, ClassNotFoundException {
         int max = 20;

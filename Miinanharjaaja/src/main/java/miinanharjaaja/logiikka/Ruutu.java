@@ -35,6 +35,9 @@ public class Ruutu {
     public void setLukittu(boolean lukittu) {
         this.lukittu = lukittu;
     }
+    public void setMiinamaara(int monta) {
+        this.viereisetMiinat = monta;
+    }
 
     public void setViereisetMiinat(int viereisetMiinat) {
         this.viereisetMiinat = this.viereisetMiinat + viereisetMiinat;
@@ -61,7 +64,8 @@ public class Ruutu {
     }
     
     /**
-     * Laskee onko ruutu miina vaikeustason pohjalta
+     * Laskee onko ruutu miina vaikeustason pohjalta, palauttaa tiedon siitä, onko kyseeessä miina vai ei
+     * @return onko ruutu miina
      */
 
 

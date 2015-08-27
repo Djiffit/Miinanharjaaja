@@ -25,6 +25,9 @@ public class Tila {
         this.manageri = manageri;
     }
 
+    /**
+     * Lista eri ruuduista pelissä
+     */
     public enum STATE {
 
         GAME,
@@ -57,16 +60,20 @@ public class Tila {
     }
 
     public Peli getPeli() {
-return peli;
+        return peli;
     }
+    
+    /**
+     * Päivittää aktiivisen pelin uuteen
+     */
 
     public void updatePeli() {
         String ruutu = "";
-        
+
         String tashoo = "";
         while (true) {
             String ruutuja = (JOptionPane.showInputDialog("Monta ruutua? Max. 99", null));
-            
+
             if (ruutuja != null && (ruutuja.matches("[0-9]+") && ruutuja.length() > 0)) {
                 ruutu = ruutuja;
                 break;
@@ -93,10 +100,16 @@ return peli;
         return y;
     }
 
+    /**
+     *
+     */
     public void stateMenu() {
         state = STATE.MENU;
     }
 
+    /**
+     *
+     */
     public void stateScore() {
         state = STATE.HIGHSCORE;
     }
@@ -113,6 +126,9 @@ return peli;
         return STATE.HIGHSCORE;
     }
 
+    /**
+     *
+     */
     public void stateGame() {
 
         state = STATE.GAME;

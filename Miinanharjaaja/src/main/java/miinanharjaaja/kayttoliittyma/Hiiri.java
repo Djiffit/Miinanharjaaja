@@ -26,6 +26,7 @@ public class Hiiri implements MouseListener {
     /**
      * Tarkistaa hiirenpainalluksen ja laskee mihin ruutuun se osuu, jos ollaan
      * pelitilassa
+     * @param e klikkauksen antama data
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -51,6 +52,7 @@ public class Hiiri implements MouseListener {
 
     /**
      * Tarkistaa hiirenpainalluksen, jos kyseessä on oikea hiirenpainallus
+     * @param e klikkauksen antama data
      */
     @Override
     public void mousePressed(MouseEvent e) {

@@ -6,6 +6,10 @@
 package miinanharjaaja.pisteet;
 
 import java.io.Serializable;
+/**
+ * Pisteolio, joka pitää sisällään nimen ja pistemäärän, mahdollistaa pisteiden järjestämisen
+ * 
+ */
 
 public class Pisteet implements Serializable, Comparable<Pisteet> {
 
