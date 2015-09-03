@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import miinanharjaaja.logiikka.Ruutu;
 
@@ -21,22 +22,22 @@ import miinanharjaaja.logiikka.Ruutu;
  */
 class Piirtaja extends JPanel {
 
-    private BufferedImage playNappi;
-    private BufferedImage image1;
-    private BufferedImage image2;
-    private BufferedImage image3;
-    private BufferedImage image4;
-    private BufferedImage image5;
-    private BufferedImage image6;
-    private BufferedImage image7;
-    private BufferedImage image8;
-    private BufferedImage image9;
-    private BufferedImage image10;
-    private BufferedImage image11;
-    private BufferedImage image12;
-    private BufferedImage image;
-    private BufferedImage imageAuki;
-    private BufferedImage imageLukittu;
+    private ImageIcon playNappi;
+    private ImageIcon image1;
+    private ImageIcon image2;
+    private ImageIcon image3;
+    private ImageIcon image4;
+    private ImageIcon image5;
+    private ImageIcon image6;
+    private ImageIcon image7;
+    private ImageIcon image8;
+    private ImageIcon image9;
+    private ImageIcon image10;
+    private ImageIcon image11;
+    private ImageIcon image12;
+    private ImageIcon image;
+    private ImageIcon imageAuki;
+    private ImageIcon imageLukittu;
     private Tila tila;
     private boolean voittkoko;
     private double y;
@@ -48,22 +49,22 @@ class Piirtaja extends JPanel {
         super.setBackground(Color.black);
         try {
 
-            playNappi = ImageIO.read(new FileInputStream("src\\res\\pelaaNappi.png"));
-            image9 = ImageIO.read(new FileInputStream("src\\res\\uusiPeli.png"));
-            image = ImageIO.read(new FileInputStream("src\\res\\ruutu.png"));
-            image1 = ImageIO.read(new FileInputStream("src\\res\\Ruutu1.png"));
-            image2 = ImageIO.read(new FileInputStream("src\\res\\Ruutu2.png"));
-            image3 = ImageIO.read(new FileInputStream("src\\res\\Ruutu3.png"));
-            image4 = ImageIO.read(new FileInputStream("src\\res\\Ruutu4.png"));
-            image5 = ImageIO.read(new FileInputStream("src\\res\\Ruutu5.png"));
-            image6 = ImageIO.read(new FileInputStream("src\\res\\Ruutu6.png"));
-            image7 = ImageIO.read(new FileInputStream("src\\res\\Ruutu7.png"));
-            image8 = ImageIO.read(new FileInputStream("src\\res\\Ruutu8.png"));
-            image10 = ImageIO.read(new FileInputStream("src\\res\\poistuNappi.png"));
-            image11 = ImageIO.read(new FileInputStream("src\\res\\pisteet.png"));
-            image12 = ImageIO.read(new FileInputStream("src\\res\\miinanharjaaja.png"));
-            imageAuki = ImageIO.read(new FileInputStream("src\\res\\RuutuAvattu.png"));
-            imageLukittu = ImageIO.read(new FileInputStream("src\\res\\RuutuLukittu.png"));
+            playNappi = teePiirros("/pelaaNappi.png");
+            image9 = teePiirros("/uusiPeli.png");
+            image = teePiirros("/ruutu.png");
+            image1 = teePiirros("/Ruutu1.png");
+            image2 = teePiirros("/Ruutu2.png");
+            image3 = teePiirros("/Ruutu3.png");
+            image4 = teePiirros("/Ruutu4.png");
+            image5 = teePiirros("/Ruutu5.png");
+            image6 = teePiirros("/Ruutu6.png");
+            image7 = teePiirros("/Ruutu7.png");
+            image8 = teePiirros("/Ruutu8.png");
+            image10 = teePiirros("/poistuNappi.png");
+            image11 = teePiirros("/pisteet.png");
+            image12 = teePiirros("/miinanharjaaja.png");
+            imageAuki = teePiirros("/RuutuAvattu.png");
+            imageLukittu = teePiirros("/RuutuLukittu.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,9 +75,17 @@ class Piirtaja extends JPanel {
         super.paintComponent(graphics);
 
         if (this.tila.getState() == tila.palautaPeli() && this.tila.getPeli() != null) {
-            renderRuudut(graphics);
+            try {
+                renderRuudut(graphics);
+            } catch (IOException ex) {
+                Logger.getLogger(Piirtaja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (this.tila.getState() == tila.palautaMenu()) {
-            valikkoRender(graphics);
+            try {
+                valikkoRender(graphics);
+            } catch (IOException ex) {
+                Logger.getLogger(Piirtaja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (this.tila.getState() == tila.palautaPiste()) {
             try {
                 pisteRender(graphics);
@@ -116,7 +125,7 @@ class Piirtaja extends JPanel {
     /**
      * Pelikentän objektit
      */
-    private void renderRuudut(Graphics graphics) {
+    private void renderRuudut(Graphics graphics) throws IOException {
         ArrayList<Ruutu>[] ruudukko = this.tila.getPeli().getAlue().getRuudukko();
         int korkeus = 40;
 
@@ -125,7 +134,7 @@ class Piirtaja extends JPanel {
         for (int i = 0; i < ruudukko.length; i++) {
             for (int j = 0; j < ruudukko.length; j++) {
                 rivi = ruudukko[i];
-                graphics.drawImage(valitsePiirrettava(rivi.get(j)), i * (900 / ruudukko.length) + leveys, korkeus, (900 / ruudukko.length), (900 / ruudukko.length), this);
+                graphics.drawImage((valitsePiirrettava(rivi.get(j))).getImage(), i * (900 / ruudukko.length) + leveys, korkeus, (900 / ruudukko.length), (900 / ruudukko.length), this);
                 korkeus += (900 / ruudukko.length);
             }
             korkeus = 40;
@@ -143,7 +152,7 @@ class Piirtaja extends JPanel {
     /**
      * Valitsee grafiikan
      */
-    private Image valitsePiirrettava(Ruutu ruutu) {
+    private ImageIcon valitsePiirrettava(Ruutu ruutu) {
         if (ruutu.isAvattu()) {
             if (ruutu.isMiina()) {
                 return imageAuki;
@@ -186,15 +195,15 @@ class Piirtaja extends JPanel {
     /**
      * Piirtää valikon ruudut
      */
-    private void valikkoRender(Graphics g) {
+    private void valikkoRender(Graphics g) throws IOException {
         Font font = new Font("arial", Font.PLAIN, 80);
         g.setFont(font);
         g.setColor(Color.white);
-        g.drawImage(playNappi, tila.getX() / 2 - 350, 250, 300, 150, this);
-        g.drawImage(image9, tila.getX() / 2 + 50, 250, 300, 150, this);
-        g.drawImage(image11, tila.getX() / 2 - 150, 450, 300, 150, this);
-        g.drawImage(image10, tila.getX() / 2 - 150, 650, 300, 150, this);
-        g.drawImage(image12, tila.getX() / 2 - 450, 25, 900, 200, this);
+        g.drawImage((playNappi).getImage(), tila.getX() / 2 - 350, 250, 300, 150, this);
+        g.drawImage((image9).getImage(), tila.getX() / 2 + 50, 250, 300, 150, this);
+        g.drawImage((image11).getImage(), tila.getX() / 2 - 150, 450, 300, 150, this);
+        g.drawImage((image10).getImage(), tila.getX() / 2 - 150, 650, 300, 150, this);
+        g.drawImage((image12).getImage(), tila.getX() / 2 - 450, 25, 900, 200, this);
     }
 
     void voitto() {
@@ -222,5 +231,16 @@ class Piirtaja extends JPanel {
 
         y += -1;
 
+    }
+
+    private ImageIcon teePiirros(String kuvanSijainti) throws IOException {
+        ImageIcon ii = null;
+        try {
+            ii = new ImageIcon(ImageIO.read(getClass().getResourceAsStream(kuvanSijainti)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return ii;
     }
 }

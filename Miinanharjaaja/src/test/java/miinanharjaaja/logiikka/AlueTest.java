@@ -117,6 +117,19 @@ public class AlueTest {
         alue.setRuudut(0);
         assertEquals(0, alue.getAvatutRuudut(), .1);
     }
+    
+        @Test
+    public void avaaViereisetEiAvaaLukittuja() {
+        Alue alue = new Alue(3, 50);
+        ArrayList<Ruutu>[] lista = alue.getRuudukko();
+        lista[0].get(1).setLukittu(true);
+        lista[0].get(1).setViereisetMiinat(0);
+        lista[0].get(1).setMiina(false);
+        lista[0].get(0).setMiina(false);
+        alue.avaa(0, 0);
+        assertEquals(1, alue.getARuudut());
+    }
+
 
     @Test
     public void avaaViereisetAvaaKaikki() {

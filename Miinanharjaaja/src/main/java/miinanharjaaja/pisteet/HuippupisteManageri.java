@@ -21,7 +21,7 @@ import java.util.Collections;
 public class HuippupisteManageri {
 
     private ArrayList<Pisteet> pistelista;
-    private static final String HUIPPUPISTE_TIEDOSTO = "src\\res\\huippupiste.dat";
+    private static final String HUIPPUPISTE_TIEDOSTO = "huippupiste.dat";
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
