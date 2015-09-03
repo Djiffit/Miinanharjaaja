@@ -26,7 +26,7 @@ public class HuippupisteManageri {
     ObjectInputStream inputStream = null;
 
     /**
-     *
+     * Alustaa pistelistan
      */
     public HuippupisteManageri() {
         this.pistelista = new ArrayList<Pisteet>();

@@ -33,7 +33,7 @@ public class Kello {
     }
 
     /**
-     *
+     * Alustaa kellon
      */
     public Kello() {
         this.paalla = true;

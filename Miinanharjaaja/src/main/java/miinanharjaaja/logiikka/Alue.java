@@ -259,6 +259,7 @@ public class Alue {
      * Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos
      * kaikki ruudut on avattu
      *
+     * @return Palauttaa avattujen ruutujen määrän
      */
     public double getAvatutRuudut() {
         double avatut = 0;
