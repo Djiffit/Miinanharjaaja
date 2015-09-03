@@ -49,6 +49,7 @@ class Piirtaja extends JPanel {
         try {
 
             playNappi = ImageIO.read(new FileInputStream("src\\res\\pelaaNappi.png"));
+            image9 = ImageIO.read(new FileInputStream("src\\res\\uusiPeli.png"));
             image = ImageIO.read(new FileInputStream("src\\res\\ruutu.png"));
             image1 = ImageIO.read(new FileInputStream("src\\res\\Ruutu1.png"));
             image2 = ImageIO.read(new FileInputStream("src\\res\\Ruutu2.png"));
@@ -58,7 +59,6 @@ class Piirtaja extends JPanel {
             image6 = ImageIO.read(new FileInputStream("src\\res\\Ruutu6.png"));
             image7 = ImageIO.read(new FileInputStream("src\\res\\Ruutu7.png"));
             image8 = ImageIO.read(new FileInputStream("src\\res\\Ruutu8.png"));
-            image9 = ImageIO.read(new FileInputStream("src\\res\\uusiPeli.png"));
             image10 = ImageIO.read(new FileInputStream("src\\res\\poistuNappi.png"));
             image11 = ImageIO.read(new FileInputStream("src\\res\\pisteet.png"));
             image12 = ImageIO.read(new FileInputStream("src\\res\\miinanharjaaja.png"));
