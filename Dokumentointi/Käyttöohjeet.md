@@ -8,3 +8,5 @@ Pelin keskeinen mekaniikka on avatuissa ruuduissa oleva numero. Jos ruutu on ava
 
 Kokeneemmille pelaajille on myös käytössä oikea hiirennäppäin, jota painamalla voidaan lukita ruutuja. Ruudun lukitseminen tarkoittaa sitä, että pelaaja uskoo että ruudussa on miina. Jos ruudussa ei ole miinaa ja ruutu sijaitsee automaattisesti aukeavalla alueella ja viereinen ruutu painetaan, täytyy pelaajan manuaalisesti poistaa lukitus ja avata ruutu, joten ruutuja ei kannata vain lukita ilman päättelyä. Lukitut ruudut auttavat visualisoimaan, missä miinat mahdollisesti ovat.
 
+
+Huippupiste.dat tiedoston tulee olla samassa kansiossa kuin .jar tiedoston.
