@@ -1,7 +1,6 @@
 package miinanharjaaja.kayttoliittyma;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import miinanharjaaja.logiikka.Alue;
 import miinanharjaaja.logiikka.Peli;
 import miinanharjaaja.pisteet.HuippupisteManageri;
@@ -43,10 +42,10 @@ public class Tila {
         this.y = y;
     }
 
-    private STATE state;
+    private STATE tilanne;
 
     public STATE getState() {
-        return state;
+        return tilanne;
     }
 
     public void setPeli(Peli peli) {
@@ -54,7 +53,7 @@ public class Tila {
     }
 
     public Tila(int x, int y) {
-        state = STATE.MENU;
+        tilanne = STATE.MENU;
         this.x = x;
         this.y = y;
     }
@@ -62,31 +61,28 @@ public class Tila {
     public Peli getPeli() {
         return peli;
     }
-    
+
     /**
      * Päivittää aktiivisen pelin uuteen
      */
-
     public void updatePeli() {
-        String ruutu = "";
-
         String tashoo = "";
+        String valinta = "";
         while (true) {
-            String ruutuja = (JOptionPane.showInputDialog("Monta ruutua? Max. 99", null));
-
-            if (ruutuja != null && (ruutuja.matches("[0-9]+") && ruutuja.length() > 0)) {
-                ruutu = ruutuja;
+            String[] vaihtoehdot = {"10", "12", "15", "18", "20", "25", "30", "36", "45", "50", "60", "75", "90", "100", "300"};
+            valinta = (String) JOptionPane.showInputDialog(null, "Monta ruutua?", "Ruutujen määrä", JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, vaihtoehdot[1]);
+            if (valinta != null && valinta.length() > 1) {
                 break;
             }
         }
         while (true) {
-            String taso = (JOptionPane.showInputDialog("Vaikeustaso? Taso * 0,05 miinoja", null));
-            if (taso != null && (taso.matches("[0-9]+") && taso.length() > 0)) {
-                tashoo = taso;
+            String[] vaihtoehdot = {"1", "2", "3", "4", "5", "6"};
+            tashoo = (String) JOptionPane.showInputDialog(null, "Vaikeustaso? Miinoja on 0,05 * vaikeustaso", "Vaikeustaso", JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, vaihtoehdot[2]);
+            if (tashoo != null && tashoo.length() > 0) {
                 break;
             }
         }
-        peli = new Peli(new Alue(Integer.parseInt(ruutu), Integer.parseInt(tashoo)));
+        peli = new Peli(new Alue(Integer.parseInt(valinta), Integer.parseInt(tashoo)));
         if (peli == null) {
             updatePeli();
         }
@@ -101,37 +97,49 @@ public class Tila {
     }
 
     /**
-     *
+     * Asettaa menutilan
      */
     public void stateMenu() {
-        state = STATE.MENU;
+        tilanne = STATE.MENU;
     }
 
     /**
-     *
+     *Asettaa pistelistatilan
      */
     public void stateScore() {
-        state = STATE.HIGHSCORE;
+        tilanne = STATE.HIGHSCORE;
     }
 
+    /**
+     * Palauttaa menun tilan
+     * @return menutila
+     */
     public STATE palautaMenu() {
         return STATE.MENU;
     }
 
+    /**
+     * Palauttaa pelitilan
+     * @return pelitila
+     */
     public STATE palautaPeli() {
         return STATE.GAME;
     }
 
+    /**
+     * Palauttaa pistelistan tilan
+     * @return Pistelistatila
+     */
     public STATE palautaPiste() {
         return STATE.HIGHSCORE;
     }
 
     /**
-     *
+     * Asettaa pelin tilaksi
      */
     public void stateGame() {
 
-        state = STATE.GAME;
+        tilanne = STATE.GAME;
 
     }
 }

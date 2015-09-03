@@ -12,6 +12,10 @@ public class Nappaimisto implements KeyListener {
 
     private Tila tila;
 
+    /**
+     * Alustaa olion
+     * @param tila Mahdollistaa tilanmuutoksen
+     */
     public Nappaimisto(Tila tila) {
         this.tila = tila;
     }

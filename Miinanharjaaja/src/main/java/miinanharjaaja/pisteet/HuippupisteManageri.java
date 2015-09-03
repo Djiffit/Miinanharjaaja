@@ -5,7 +5,6 @@
  */
 package miinanharjaaja.pisteet;
 
-import java.io.Console;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +21,7 @@ import java.util.Collections;
 public class HuippupisteManageri {
 
     private ArrayList<Pisteet> pistelista;
-    private static final String HUIPPUPISTE_TIEDOSTO = "huippupiste.dat";
+    private static final String HUIPPUPISTE_TIEDOSTO = "src\\res\\huippupiste.dat";
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
@@ -90,9 +89,9 @@ public class HuippupisteManageri {
             inputStream = new ObjectInputStream(new FileInputStream(HUIPPUPISTE_TIEDOSTO));
             pistelista = (ArrayList<Pisteet>) inputStream.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("FNF Error " + e);
+            System.out.println("FNF Error pistelista lataus " + e);
         } catch (IOException e) {
-            System.out.println("IOE Error " + e);
+            System.out.println("IOE Error pistelista lataus " + e);
         } finally {
             if (outputStream != null) {
                 outputStream.flush();
@@ -114,9 +113,9 @@ public class HuippupisteManageri {
             outputStream = new ObjectOutputStream(new FileOutputStream(HUIPPUPISTE_TIEDOSTO));
             outputStream.writeObject(pistelista);
         } catch (FileNotFoundException e) {
-            System.out.println("FNF Error " + e);
+            System.out.println("FNF Error pistelista päivitys " + e);
         } catch (IOException e) {
-            System.out.println("IO Error " + e);
+            System.out.println("IO Error pistelista päivitys " + e);
         } finally {
             outputStream.flush();
             outputStream.close();

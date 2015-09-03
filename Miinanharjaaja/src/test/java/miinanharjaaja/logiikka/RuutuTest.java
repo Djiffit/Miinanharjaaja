@@ -6,10 +6,6 @@
 package miinanharjaaja.logiikka;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -31,9 +27,9 @@ public class RuutuTest {
     @Test
     public void testSetMiina() {
         boolean miina = false;
-        Ruutu instance = new Ruutu(100);
-        instance.setMiina(miina);
-        assertEquals(false, instance.isMiina());
+        Ruutu ruudu = new Ruutu(100);
+        ruudu.setMiina(miina);
+        assertEquals(false, ruudu.isMiina());
     }
 
     /**
@@ -42,9 +38,9 @@ public class RuutuTest {
     @Test
     public void testSetViereisetMiinat() {
         int viereisetMiinat = 1;
-        Ruutu instance = new Ruutu(0);
-        instance.setViereisetMiinat(viereisetMiinat);
-        assertEquals(1, instance.getViereisetMiinat());
+        Ruutu ruutu = new Ruutu(0);
+        ruutu.setViereisetMiinat(viereisetMiinat);
+        assertEquals(1, ruutu.getViereisetMiinat());
     }
 
     /**
@@ -63,7 +59,6 @@ public class RuutuTest {
                 }
             }
         }
-        boolean expResult = false;
         assertEquals(0, miinojenMaara);
     }
     
@@ -80,8 +75,6 @@ public class RuutuTest {
                 }
             }
         }
-        boolean expResult = false;
-        
         assertEquals(9, miinojenMaara);
     }
 

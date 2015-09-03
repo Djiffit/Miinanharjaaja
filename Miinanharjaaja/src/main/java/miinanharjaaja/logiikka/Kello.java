@@ -32,6 +32,9 @@ public class Kello {
         return paalla;
     }
 
+    /**
+     *
+     */
     public Kello() {
         this.paalla = true;
         this.sekunnit = 0;

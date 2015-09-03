@@ -1,13 +1,8 @@
 package miinanharjaaja.logiikka;
 
-import miinanharjaaja.logiikka.*;
-import java.util.Scanner;
-
-/**
- * Pelin tilaa ylläpitävä luokka joka yhdistää logiikan elementit
- * 
- */
-
+    /**
+     * Pelin tilaa ylläpitävä luokka joka yhdistää logiikan elementit
+     */
 public class Peli {
 
     private Alue alue;
@@ -17,6 +12,10 @@ public class Peli {
     private Kello kello;
     private boolean lahetetty;
 
+    /**
+     * Alustaa Pelin ja luo kellon
+     * @param alue
+     */
     public Peli(Alue alue) {
         this.alue = alue;
         this.menetykset = 0;

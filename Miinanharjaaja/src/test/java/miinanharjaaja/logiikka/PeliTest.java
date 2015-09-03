@@ -6,10 +6,6 @@
 package miinanharjaaja.logiikka;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,45 +20,50 @@ public class PeliTest {
 
     @Test
     public void testGetAlue() {
-        Alue expResult = new Alue(3, 1);
-        Peli instance = new Peli(expResult);
+        Alue odot = new Alue(3, 1);
+        Peli peli = new Peli(odot);
 
-        Alue result = instance.getAlue();
-        assertEquals(expResult, result);
+        Alue tulos = peli.getAlue();
+        assertEquals(odot, tulos);
     }
 
     /**
      * Test of havio method, of class Peli.
      */
-//    @Test
-//    public void testHavio() {
-//        System.out.println("havio");
-//        Peli peli = new Peli(new Alue(3, 1));
-//        boolean havio = peli.havio();
-//        assertEquals(peli.isHavio(), havio);
-//        assertEquals(peli.getKello().isPaalla(), false);
-//    }
+    @Test
+    public void testHavio() {
+        Peli peli = new Peli(new Alue(3, 1));
+        boolean havio = peli.havio();
+        assertEquals(peli.isHavio(), havio);
+    }
 
     /**
      * Test of voitto method, of class Peli.
      */
     @Test
     public void testVoitto() {
-        System.out.println("voitto");
-        Peli instance = new Peli(new Alue(3, 0));
-        instance.avaaRuutu(1, 1);
-        boolean expResult = true;
-        boolean result = instance.voitto();
-        assertEquals(expResult, result);
+        Peli peli = new Peli(new Alue(3, 0));
+        peli.avaaRuutu(1, 1);
+        boolean ododtus = true;
+        boolean tulos = peli.voitto();
+        assertEquals(ododtus, tulos);
+    }
+
+    @Test
+    public void testVoittoKello() {
+        Peli peli = new Peli(new Alue(3, 0));
+        peli.avaaRuutu(1, 1);
+        boolean odotus = true;
+        boolean tulos = peli.getKello().isPaalla();
+        assertEquals(odotus, tulos);
     }
 
     @Test
     public void testVoittoEiVoittoa() {
-        System.out.println("voitto");
-        Peli instance = new Peli(new Alue(3, 11));
-        boolean expResult = false;
-        boolean result = instance.voitto();
-        assertEquals(expResult, result);
+        Peli peli = new Peli(new Alue(3, 11));
+        boolean odotus = false;
+        boolean tulos = peli.voitto();
+        assertEquals(odotus, tulos);
     }
 
     /**
@@ -73,9 +74,9 @@ public class PeliTest {
         System.out.println("lukitseRuutu");
         int x = 0;
         int y = 0;
-        Peli instance = new Peli(new Alue(3, 1));
-        instance.lukitseRuutu(x, y);
-        ArrayList[] lista = instance.getAlue().getRuudukko();
+        Peli peli = new Peli(new Alue(3, 1));
+        peli.lukitseRuutu(x, y);
+        ArrayList[] lista = peli.getAlue().getRuudukko();
         ArrayList<Ruutu> ruudut = lista[0];
         assertEquals(true, ruudut.get(0).isLukittu());
     }
@@ -85,14 +86,25 @@ public class PeliTest {
      */
     @Test
     public void testAvaaRuutu() {
-        System.out.println("avaaRuutu");
         int x = 0;
         int y = 0;
-        Peli instance = new Peli(new Alue(3, 0));
-        instance.avaaRuutu(x, y);
-        ArrayList[] lista = instance.getAlue().getRuudukko();
+        Peli pjeli = new Peli(new Alue(3, 0));
+        pjeli.avaaRuutu(x, y);
+        ArrayList[] lista = pjeli.getAlue().getRuudukko();
         ArrayList<Ruutu> ruudut = lista[0];
         assertEquals(true, ruudut.get(0).isAvattu());
+        assertEquals(false, pjeli.isLahetetty());
+    }
+
+    @Test
+    public void testAvaaRuutuLukitsee() {
+        int x = 0;
+        int y = 0;
+        Peli peli = new Peli(new Alue(3, 55));
+        peli.avaaRuutu(x, y);
+        ArrayList[] lista = peli.getAlue().getRuudukko();
+        ArrayList<Ruutu> ruudut = lista[0];
+        assertEquals(true, ruudut.get(0).isLukittu());
     }
 
     /**
@@ -101,11 +113,11 @@ public class PeliTest {
     @Test
     public void testJatka() {
         System.out.println("jatka");
-        Peli instance = new Peli(new Alue(3, 1));
-        instance.jatka();
-        assertEquals(instance.isHavio(), false);
-        assertEquals(instance.getMenetykset(), 1);
-        
+        Peli peli = new Peli(new Alue(3, 1));
+        peli.jatka();
+        assertEquals(peli.isHavio(), false);
+        assertEquals(peli.getMenetykset(), 1);
+
     }
 
     /**
@@ -114,9 +126,9 @@ public class PeliTest {
     @Test
     public void testEtene() {
         System.out.println("etene");
-        Peli instance = new Peli(new Alue(3, 1));
-        instance.etene();
-        assertEquals(instance.getKello().getSekunnit(), 1);
+        Peli peli = new Peli(new Alue(3, 1));
+        peli.etene();
+        assertEquals(peli.getKello().getSekunnit(), 1);
     }
 
     /**
@@ -125,9 +137,17 @@ public class PeliTest {
     @Test
     public void testKelloAika() {
         System.out.println("kelloAika");
-        Peli instance = new Peli(new Alue(3, 1));
-        String result = instance.kelloAika();
-        assertEquals(result, "00:00:00");
+        Peli peeli = new Peli(new Alue(3, 1));
+        String tulos = peeli.kelloAika();
+        assertEquals(tulos, "00:00:00");
+
+    }
+
+    @Test
+    public void testPisteenLasku() {
+        Peli peeli = new Peli(new Alue(1, 1));
+        int tulos = peeli.pisteet();
+        assertEquals(0, tulos);
 
     }
 

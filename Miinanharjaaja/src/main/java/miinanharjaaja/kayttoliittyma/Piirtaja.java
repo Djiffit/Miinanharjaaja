@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import miinanharjaaja.logiikka.Ruutu;
 
-
 /**
  * Piirtäjä huolehtii graafisten elementtien piirtämisestä
  */
@@ -41,7 +40,6 @@ class Piirtaja extends JPanel {
     private Tila tila;
     private boolean voittkoko;
     private double y;
-    private boolean pisteetPiirretty = false;
 
     public Piirtaja(Tila tila) {
         this.tila = tila;
@@ -50,22 +48,22 @@ class Piirtaja extends JPanel {
         super.setBackground(Color.black);
         try {
 
-            playNappi = ImageIO.read(new FileInputStream("PelaaNappi.png"));
-            image = ImageIO.read(new FileInputStream("ruutu.png"));
-            image1 = ImageIO.read(new FileInputStream("Ruutu1.png"));
-            image2 = ImageIO.read(new FileInputStream("Ruutu2.png"));
-            image3 = ImageIO.read(new FileInputStream("Ruutu3.png"));
-            image4 = ImageIO.read(new FileInputStream("Ruutu4.png"));
-            image5 = ImageIO.read(new FileInputStream("Ruutu5.png"));
-            image6 = ImageIO.read(new FileInputStream("Ruutu6.png"));
-            image7 = ImageIO.read(new FileInputStream("Ruutu7.png"));
-            image8 = ImageIO.read(new FileInputStream("Ruutu8.png"));
-            image9 = ImageIO.read(new FileInputStream("uusiPeli.png"));
-            image10 = ImageIO.read(new FileInputStream("poistuNappi.png"));
-            image11 = ImageIO.read(new FileInputStream("pisteet.png"));
-            image12 = ImageIO.read(new FileInputStream("miinanharjaaja.png"));
-            imageAuki = ImageIO.read(new FileInputStream("RuutuAvattu.png"));
-            imageLukittu = ImageIO.read(new FileInputStream("RuutuLukittu.png"));
+            playNappi = ImageIO.read(new FileInputStream("src\\res\\pelaaNappi.png"));
+            image = ImageIO.read(new FileInputStream("src\\res\\ruutu.png"));
+            image1 = ImageIO.read(new FileInputStream("src\\res\\Ruutu1.png"));
+            image2 = ImageIO.read(new FileInputStream("src\\res\\Ruutu2.png"));
+            image3 = ImageIO.read(new FileInputStream("src\\res\\Ruutu3.png"));
+            image4 = ImageIO.read(new FileInputStream("src\\res\\Ruutu4.png"));
+            image5 = ImageIO.read(new FileInputStream("src\\res\\Ruutu5.png"));
+            image6 = ImageIO.read(new FileInputStream("src\\res\\Ruutu6.png"));
+            image7 = ImageIO.read(new FileInputStream("src\\res\\Ruutu7.png"));
+            image8 = ImageIO.read(new FileInputStream("src\\res\\Ruutu8.png"));
+            image9 = ImageIO.read(new FileInputStream("src\\res\\uusiPeli.png"));
+            image10 = ImageIO.read(new FileInputStream("src\\res\\poistuNappi.png"));
+            image11 = ImageIO.read(new FileInputStream("src\\res\\pisteet.png"));
+            image12 = ImageIO.read(new FileInputStream("src\\res\\miinanharjaaja.png"));
+            imageAuki = ImageIO.read(new FileInputStream("src\\res\\RuutuAvattu.png"));
+            imageLukittu = ImageIO.read(new FileInputStream("src\\res\\RuutuLukittu.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,10 +96,15 @@ class Piirtaja extends JPanel {
         }
     }
 
+    /**
+     * Voittoruudun piirto
+     */
     private void oletVoittaja(Graphics graphics) {
         if (tila.getPeli().isVoitto()) {
+            Font font = new Font("arial", Font.PLAIN, 20);
+            graphics.drawString("Paina ESC palataksesi takaisin valikkoon", 50, tila.getY() - 100);
             Random sattuma = new Random();
-            Font font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
+            font = new Font("arial", Font.PLAIN, (int) (200 * sattuma.nextDouble()));
             graphics.setFont(font);
             graphics.setColor(Color.getHSBColor((float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble()), (float) (256 * sattuma.nextDouble())));
             int x = (int) (1000 * sattuma.nextDouble());
@@ -110,6 +113,9 @@ class Piirtaja extends JPanel {
         }
     }
 
+    /**
+     * Pelikentän objektit
+     */
     private void renderRuudut(Graphics graphics) {
         ArrayList<Ruutu>[] ruudukko = this.tila.getPeli().getAlue().getRuudukko();
         int korkeus = 40;
@@ -134,6 +140,9 @@ class Piirtaja extends JPanel {
         graphics.drawString("Ruutuja: " + (tila.getPeli().getAlue().getRuudut() - tila.getPeli().getAlue().getARuudut()), 30, 240);
     }
 
+    /**
+     * Valitsee grafiikan
+     */
     private Image valitsePiirrettava(Ruutu ruutu) {
         if (ruutu.isAvattu()) {
             if (ruutu.isMiina()) {
@@ -174,8 +183,10 @@ class Piirtaja extends JPanel {
         return image;
     }
 
+    /**
+     * Piirtää valikon ruudut
+     */
     private void valikkoRender(Graphics g) {
-        pisteetPiirretty = false;
         Font font = new Font("arial", Font.PLAIN, 80);
         g.setFont(font);
         g.setColor(Color.white);
@@ -190,9 +201,12 @@ class Piirtaja extends JPanel {
         this.voittkoko = true;
     }
 
+    /**
+     * Piirtää pisteruudun
+     */
     private void pisteRender(Graphics graphics) throws IOException, FileNotFoundException, ClassNotFoundException, InterruptedException {
         Font font = new Font("arial", Font.PLAIN, 50);
-
+        graphics.drawString("Paina ESC palataksesi takaisin valikkoon", 50, 50);
         graphics.setFont(font);
         graphics.setColor(Color.white);
         String pisteilijat = tila.getManageri().getHuippuPisteet();

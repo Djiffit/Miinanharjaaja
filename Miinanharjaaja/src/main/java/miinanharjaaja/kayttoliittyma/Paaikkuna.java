@@ -8,16 +8,12 @@ package miinanharjaaja.kayttoliittyma;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
-import java.awt.PopupMenu;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import miinanharjaaja.logiikka.Alue;
-import miinanharjaaja.logiikka.Peli;
 import miinanharjaaja.pisteet.HuippupisteManageri;
 
 /**
@@ -27,55 +23,63 @@ import miinanharjaaja.pisteet.HuippupisteManageri;
 public class Paaikkuna extends JFrame implements Runnable {
 
     private JFrame frame;
-    public int height = 1020;
-    public int width = 1813;
-    private boolean running = false;
+    public int height;
+    public int width;
+    private boolean running;
+    private double FPS;
+    private double targetTime;
+    private Tila tila;
+    private Piirtaja piirtaja;
+    private Hiiri hiiri;
+    private HuippupisteManageri manageri;
 
-    private double FPS = 60;
-    private double targetTime = 1000 / FPS;
-
-    private Tila state = new Tila(width, height);
-
-    private Piirtaja piirtaja = new Piirtaja(state);
-    private Hiiri hiiri = new Hiiri(state);
-    private HuippupisteManageri manageri = new HuippupisteManageri();
+    public Paaikkuna() {
+        height = 1020;
+        width = 1813;
+        running = false;
+        FPS = 60;
+        targetTime = 1000 / FPS;
+        tila = new Tila(width, height);
+        piirtaja = new Piirtaja(tila);
+        hiiri = new Hiiri(tila);
+        manageri = new HuippupisteManageri();
+    }
 
     /**
      * Pelin päälooppi, joka alustaa käyttöliittymän ja pelin
      */
     @Override
     public void run() {
-        String nimi = "p";
         alustaLiittyma();
         long lastTime = System.nanoTime();
         double ns = 1000000000 / FPS;
-        int updates = 0;
-        double delta = 0;
+        int paivityksia = 0;
+        double muutos = 0;
         long timer = System.currentTimeMillis();
         while (running) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
+            muutos += (now - lastTime) / ns;
             lastTime = now;
-            if (delta >= 1) {
-                delta--;
-                updates++;
+            if (muutos >= 1) {
+                muutos--;
+                paivityksia++;
                 draw();
             }
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println(updates + " Updates");
-                updates = 0;
-                if (state.getState() == state.palautaPeli()) {
-                    state.getPeli().etene();
+                System.out.println(paivityksia + " Updates");
+                paivityksia = 0;
+                if (tila.getState() == tila.palautaPeli()) {
+                    tila.getPeli().etene();
                 }
             }
-            if (state.getPeli() == null && state.getState() == state.palautaPeli()) {
-                state.updatePeli();
+            if (tila.getPeli() == null && tila.getState() == tila.palautaPeli()) {
+                tila.updatePeli();
             }
-            if (state.getPeli() != null && state.getPeli().havio()) {
+            if (tila.getPeli() != null && tila.getPeli().havio()) {
                 pelinJatkaminen();
             }
-            if (state.getPeli() != null && state.getPeli().voitto()) {
+            if (tila.getPeli() != null && tila.getPeli().voitto()) {
                 tilanteenaVoitto();
             }
 
@@ -86,27 +90,35 @@ public class Paaikkuna extends JFrame implements Runnable {
     private void tilanteenaVoitto() throws HeadlessException {
         String nimi;
         piirtaja.voitto();
-        if (!state.getPeli().isLahetetty()) {
-            nimi = JOptionPane.showInputDialog("Anna nimesi!");
-            int piste = state.getPeli().pisteet();
+        if (!tila.getPeli().isLahetetty()) {
+            while (true) {
+                nimi = JOptionPane.showInputDialog("Anna nimesi! 3-15 merkkiä");
+                if (nimi != null && (nimi.length() < 15 && nimi.length() > 2)) {
+                    break;
+                }
+            }
+            int piste = tila.getPeli().pisteet();
             try {
                 manageri.lisaaPisteet(nimi, piste);
+
             } catch (IOException ex) {
-                Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Paaikkuna.class
+                        .getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Paaikkuna.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Paaikkuna.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
-            state.getPeli().setLahetetty(true);
+            tila.getPeli().setLahetetty(true);
         }
     }
 
     private void pelinJatkaminen() throws HeadlessException {
         int luku = JOptionPane.showConfirmDialog(this, "Harjaaja menetetty, jatketaanko?", "Häviö", JOptionPane.YES_NO_OPTION);
         if (luku == JOptionPane.YES_OPTION) {
-            state.getPeli().jatka();
+            tila.getPeli().jatka();
         } else {
-            state.stateMenu();
-            state.setPeli(null);
+            tila.stateMenu();
+            tila.setPeli(null);
         }
     }
 
@@ -114,8 +126,8 @@ public class Paaikkuna extends JFrame implements Runnable {
      * Piirtaa pelin 60 kertaa sekunnissa
      */
     public void draw() {
-        state.setX(frame.getWidth());
-        state.setY(frame.getHeight());
+        tila.setX(frame.getWidth());
+        tila.setY(frame.getHeight());
         frame.repaint();
     }
 
@@ -123,14 +135,14 @@ public class Paaikkuna extends JFrame implements Runnable {
         frame = new JFrame("Miinanharjaaja");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(1400, 1020));
+        frame.setMinimumSize(new Dimension(1500, 1020));
         frame.pack();
         luoKomponentit(frame);
         running = true;
         frame.setVisible(true);
         frame.addMouseListener(hiiri);
-        frame.addKeyListener(new Nappaimisto(state));
-        state.setManageri(manageri);
+        frame.addKeyListener(new Nappaimisto(tila));
+        tila.setManageri(manageri);
     }
 
     private void luoKomponentit(Container container) {

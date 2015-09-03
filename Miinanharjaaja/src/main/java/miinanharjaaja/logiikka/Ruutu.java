@@ -5,7 +5,6 @@
  */
 package miinanharjaaja.logiikka;
 
-import miinanharjaaja.logiikka.*;
 import java.util.Random;
 
 /**
@@ -20,6 +19,10 @@ public class Ruutu {
     private int viereisetMiinat;
     private boolean avattu;
 
+    /**
+     * Alustaa ruudun ja laskee miinan
+     * @param taso
+     */
     public Ruutu(int taso) {
         this.taso = taso;
         this.lukittu = false;

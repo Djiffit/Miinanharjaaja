@@ -8,7 +8,6 @@ package miinanharjaaja.logiikka;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import miinanharjaaja.kayttoliittyma.*;
-import miinanharjaaja.pisteet.HuippupisteManageri;
 
 public class Paaohjelma {
 

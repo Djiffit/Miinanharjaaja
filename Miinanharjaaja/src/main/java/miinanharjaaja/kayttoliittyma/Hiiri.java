@@ -8,17 +8,20 @@ package miinanharjaaja.kayttoliittyma;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
-import miinanharjaaja.logiikka.Alue;
-import miinanharjaaja.logiikka.Peli;
 
-/**
- * Hiiri ottaa vastaan hiirenpainallukset ja tulkitsee niiden sijaintia ja
- * tyyppiä
- */
+    /**
+     * Hiiri ottaa vastaan hiirenpainallukset ja tulkitsee niiden sijaintia ja
+     * tyyppiä
+     */
+
 public class Hiiri implements MouseListener {
 
     private Tila tila;
 
+    /**
+     * Alustaa hiiren ja asettaa tilaolion
+     * @param tila Tilaolio, josta saadaan ohjelman tilanne
+     */
     public Hiiri(Tila tila) {
         this.tila = tila;
     }
@@ -26,6 +29,7 @@ public class Hiiri implements MouseListener {
     /**
      * Tarkistaa hiirenpainalluksen ja laskee mihin ruutuun se osuu, jos ollaan
      * pelitilassa
+     *
      * @param e klikkauksen antama data
      */
     @Override
@@ -52,6 +56,7 @@ public class Hiiri implements MouseListener {
 
     /**
      * Tarkistaa hiirenpainalluksen, jos kyseessä on oikea hiirenpainallus
+     *
      * @param e klikkauksen antama data
      */
     @Override
@@ -79,7 +84,9 @@ public class Hiiri implements MouseListener {
     private void menuToiminnot(int mx, int my) {
         if (mx >= tila.getX() / 2 - 350 && mx < tila.getX() / 2 - 50) {
             if (my >= 250 && my <= 400) {
-
+                if (tila.getPeli() == null || tila.getPeli().isVoitto()) {
+                    tila.updatePeli();
+                }
                 tila.stateGame();
             }
         }

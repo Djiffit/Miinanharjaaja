@@ -88,7 +88,6 @@ public class KelloTest {
     /**
      * Test of toString method, of class Kello.
      */
-
     @Test
 
     public void testToStringNolla() {
@@ -99,6 +98,7 @@ public class KelloTest {
         assertEquals("00:00:00", result);
     }
 
+    @Test
     public void testToStringKymmenenToimii() {
         System.out.println("toString");
         Kello instance = new Kello();
@@ -106,6 +106,17 @@ public class KelloTest {
         instance.setSekunnit(10);
         String result = instance.toString();
         assertEquals("00:10:10", result);
+    }
+
+    @Test
+    public void testToStringAlleKymmenenToimii() {
+        System.out.println("toString");
+        Kello instance = new Kello();
+        instance.setMinuutit(1);
+        instance.setSekunnit(1);
+        instance.setTunnit(1);
+        String result = instance.toString();
+        assertEquals("01:01:01", result);
     }
 
 }

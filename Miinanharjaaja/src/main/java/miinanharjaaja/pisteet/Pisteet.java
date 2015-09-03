@@ -24,6 +24,11 @@ public class Pisteet implements Serializable, Comparable<Pisteet> {
         return nimi;
     }
 
+    /**
+     *
+     * @param nimi
+     * @param pisteet
+     */
     public Pisteet(String nimi, int pisteet) {
         this.piste = pisteet;
         this.nimi = nimi;

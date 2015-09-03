@@ -1,6 +1,5 @@
 package miinanharjaaja.logiikka;
 
-import miinanharjaaja.logiikka.*;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +14,7 @@ public class Alue {
     private ArrayList<Ruutu>[] ruudukko;
 
     /**
-     *
+     * 
      * @param x monta ruutua per rivi
      * @param taso vaikeustaso
      */
@@ -78,6 +77,7 @@ public class Alue {
     /**
      * Avaa koordinaattien mukaisen ruudun ja palauttaa true, jos kyseessä oli
      * miina, false jos ei
+     *
      * @param z x koordinaatti
      * @param t y koordinaatti
      * @return miinastatus
@@ -86,7 +86,7 @@ public class Alue {
         ArrayList<Ruutu> lista = this.ruudukko[z];
         if (lista.get(t).isMiina() && !lista.get(t).isLukittu()) {
             return true;
-        } else if (!lista.get(t).isLukittu() && !lista.get(t).isAvattu()){
+        } else if (!lista.get(t).isAvattu() && !lista.get(t).isLukittu()) {
             this.avatutRuudut++;
             lista.get(t).setAvattu(true);
             avaaViereiset(z, t);
@@ -97,6 +97,7 @@ public class Alue {
 
     /**
      * Vaihdaa ruudun lukkeutumistilaa
+     *
      * @param z x koordinaatti
      * @param t y koordinaatti
      */
@@ -114,26 +115,25 @@ public class Alue {
     /**
      * Avauksen apumetodi, avaa ruudun viereiset ruudut, jos niissä ei oel
      * miinaa, käyttää oikeavasen ja ylempialempi metodeja hyväkseen
+     *
      * @param z x koordinaatti
      * @param t y koordinaatti
      */
     public void avaaViereiset(int z, int t) {
         ArrayList<Ruutu> lista = this.ruudukko[z];
-        avaaViereisetYlempiAlempi(z, lista, t);
-        avaaViereisetOikeaVasen(z, t);
-        avaaViereisetPoikittain(z, t);
-    }
-
-    private void avaaViereisetPoikittain(int z, int t) {
-        ArrayList<Ruutu> lista;
-        ArrayList<Ruutu> tama = this.ruudukko[z];
         boolean avaa = false;
-        if (tama.get(t).getViereisetMiinat() == 0) {
+        if (lista.get(t).getViereisetMiinat() == 0) {
             avaa = true;
         }
+        avaaViereisetYlempiAlempi(z, lista, t, avaa);
+        avaaViereisetOikeaVasen(z, t, avaa);
+        avaaViereisetPoikittain(z, t, avaa);
+    }
 
-        avaaPoikittainOikeaPuoli(z, t, avaa);
-        avaaPoikittainVasenPuoli(z, t, avaa);
+    private void avaaViereisetPoikittain(int z, int t, boolean avaus) {
+        ArrayList<Ruutu> tama = this.ruudukko[z];
+        avaaPoikittainOikeaPuoli(z, t, avaus);
+        avaaPoikittainVasenPuoli(z, t, avaus);
     }
 
     private void avaaPoikittainVasenPuoli(int z, int t, boolean avaa) {
@@ -141,13 +141,13 @@ public class Alue {
         if (z + 1 < x && t - 1 >= 0) {
             lista = this.ruudukko[z + 1];
             if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
-                avaa(z + 1, t - 1);
+                avaaP(z + 1, t - 1);
             }
         }
         if (z - 1 >= 0 && t - 1 >= 0) {
             lista = this.ruudukko[z - 1];
             if (!lista.get(t - 1).isMiina() && !lista.get(t - 1).isAvattu() && (avaa)) {
-                avaa(z - 1, t - 1);
+                avaaP(z - 1, t - 1);
             }
         }
     }
@@ -157,25 +157,19 @@ public class Alue {
         if (z + 1 < x && t + 1 < x) {
             lista = this.ruudukko[z + 1];
             if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
-                avaa(z + 1, t + 1);
+                avaaP(z + 1, t + 1);
             }
         }
         if (z - 1 >= 0 && t + 1 < x) {
             lista = this.ruudukko[z - 1];
             if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa)) {
-                avaa(z - 1, t + 1);
+                avaaP(z - 1, t + 1);
             }
         }
     }
 
-    private void avaaViereisetOikeaVasen(int z, int t) {
+    private void avaaViereisetOikeaVasen(int z, int t, boolean avaa) {
         ArrayList<Ruutu> lista;
-        ArrayList<Ruutu> tama = this.ruudukko[z];
-        boolean avaa = false;
-        if (tama.get(t).getViereisetMiinat() == 0 && !tama.get(t).isMiina()) {
-            avaa = true;
-        }
-
         if (z + 1 < x) {
             lista = this.ruudukko[z + 1];
             if (!lista.get(t).isMiina() && !lista.get(t).isAvattu() && (avaa || lista.get(t).getViereisetMiinat() == 0)) {
@@ -190,12 +184,8 @@ public class Alue {
         }
     }
 
-    private void avaaViereisetYlempiAlempi(int z, ArrayList<Ruutu> lista, int t) {
-        boolean avaa = false;
-        ArrayList<Ruutu> tama = this.ruudukko[z];
-        if (tama.get(t).getViereisetMiinat() == 0 && !tama.get(t).isMiina()) {
-            avaa = true;
-        }
+    private void avaaViereisetYlempiAlempi(int z, ArrayList<Ruutu> lista, int t, boolean avaa) {
+
         if (t + 1 < x) {
             if (!lista.get(t + 1).isMiina() && !lista.get(t + 1).isAvattu() && (avaa || lista.get(t + 1).getViereisetMiinat() == 0)) {
                 avaa(z, t + 1);
@@ -211,6 +201,7 @@ public class Alue {
     /**
      * Miinojen luonnin jälkeen asettaa kaikille miinoille oikean määrän
      * viereisiä miinoja
+     *
      * @param i x koordinaatti
      * @param j y koordinaatti
      */
@@ -267,7 +258,7 @@ public class Alue {
     /**
      * Metodi jolla voidaan tarkistaa, onko peli voitettu, palauttaa 1 jos
      * kaikki ruudut on avattu
-     * 
+     *
      */
     public double getAvatutRuudut() {
         double avatut = 0;
@@ -283,6 +274,24 @@ public class Alue {
             return 0;
         }
         return avatut / this.ruudut;
+    }
+
+    /**
+     * Avaa ruudun, mutta ei avaa viereisiä joka tapauksessa
+     * @param z x koordinaatti
+     * @param t y koordinaatti
+     */
+    public void avaaP(int z, int t) {
+        ArrayList<Ruutu> lista = this.ruudukko[z];
+        if (lista.get(t).isMiina() && !lista.get(t).isLukittu()) {
+            return;
+        } else if (!lista.get(t).isAvattu() && !lista.get(t).isLukittu()) {
+            this.avatutRuudut++;
+            lista.get(t).setAvattu(true);
+            if (lista.get(t).getViereisetMiinat() == 0) {
+                avaaViereiset(z, t);
+            }
+        }
     }
 
 }
