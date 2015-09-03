@@ -15,3 +15,4 @@ ________________________________________________
 | 20.8  | 3h  | Testien tekoa, kello, neljäs deadline |
 | 26.8  | 3h  | Logiikan parantamista, pistetaulukko  |
 | 27.8  | 3h  | Päävalikon viimeistely, 5. deadline |
+| 3.9  | 7h  | Ohjelman toiminnan muuttaminen .jar tiedostoon sopivaksi, viimeinen deadline |
